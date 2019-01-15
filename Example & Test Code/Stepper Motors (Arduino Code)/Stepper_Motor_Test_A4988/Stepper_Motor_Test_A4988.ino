@@ -21,6 +21,14 @@ The stepper drivers require two signals, Step and Direction, which control the s
 #define DIR2 4
 #define STEP2 5
 
+//Endstop Pins for Stepper motors 1 and 2 (Min/zero position)
+#define SEndstop1 31
+#define SEndstop2 33
+
+//Enable pins for Stepper motors 1 and 2
+#define SEnable1 34
+#define SEnable2 36
+
 //Stepper motor objects which are used to control the stepper motor drivers
 A4988 stepper1(MOTOR_STEPS, DIR1, STEP1);
 A4988 stepper2(MOTOR_STEPS, DIR2, STEP2);
@@ -35,8 +43,8 @@ int MaxSize1 = 200;
 int MaxSize2 = 200;
 
 //Temporary position values, keeps track of the position of the carriage.
-int CurrentPos1 = 0; //should not be initialized, test only
-int CurrentPos2 = 0; //should not be initialized, test only
+int CurrentPos1; //should not be initialized, test only
+int CurrentPos2;//should not be initialized, test only
 
 //Temporary variable for storing distance in steps
 int DistanceSteps;
@@ -56,6 +64,23 @@ int StepperSetup(int MSpeed, int MStep){
     stepper2.begin(MSpeed);
     stepper2.setMicrostep(MStep);
 
+    //Endstops and Enable pins declaration
+    pinMode(SEndstop1, INPUT);
+    pinMode(SEndstop2, INPUT);
+    pinMode(SEnable1, OUTPUT);
+    pinMode(SEnable2, OUTPUT);
+
+    Serial.begin(9600);
+    
+    //Enabling Stepper Motors
+    digitalWrite(SEnable1, LOW);
+    digitalWrite(SEnable2, LOW);
+    
+    delay(1000);
+    
+    //homing 
+    HomingStepper1();
+    HomingStepper2();
 }
 
 //Movement Functions for both stepper motors
@@ -142,6 +167,56 @@ int StepperMovement2(int Distance, int Direction){
   }
 }
 
+void HomingStepper1(){
+  while(digitalRead(SEndstop1) != 0){
+    stepper1.move(-80*10); 
+  }
+  stepper1.stop();
+  delay(100);
+  stepper1.move(80*20);
+  //Accuracy check
+  while(digitalRead(SEndstop1) != 0){
+    stepper1.move(-80*10); 
+  }
+  stepper1.stop();
+  CurrentPos1 = 0;
+  
+}
+
+void HomingStepper2(){
+  while(digitalRead(SEndstop2) != 0){
+  stepper2.move(-80*10); 
+  }
+  stepper2.stop();
+  delay(100);
+  stepper2.move(80*20);
+  //Accuracy check
+  while(digitalRead(SEndstop2) != 0){
+    stepper2.move(-80*10); 
+  }
+  stepper2.stop();
+  CurrentPos2 = 0;
+}
+
+//Completely stops the motors and shuts off stepper drivers, only for emergency cases
+void EmergencyStopEN(){
+  //Disables the stepper drivers
+  digitalWrite(SEnable1, HIGH);
+  digitalWrite(SEnable2, HIGH);
+
+  //Stops any motion of the stepper drivers
+  stepper1.stop();
+  stepper2.stop();
+}
+
+//Turns the stepper drivers back on and returns the motors to working condition
+void EmergencyStopDis(){
+  //Disables the stepper drivers
+  digitalWrite(SEnable1, LOW);
+  digitalWrite(SEnable2, LOW);
+  
+}
+
 
 //Actual code lol
 
@@ -153,11 +228,14 @@ void setup(){
 
 void loop(){
         //Moving Test
-        StepperMovement1(10,1);
-        StepperMovement2(20,1);
-        StepperMovement1(10,1);
-        StepperMovement2(20,1);
-        StepperMovement1(20,-1);
-        StepperMovement2(40,-1);
-    
+        //StepperMovement1(10,1);
+        //StepperMovement2(20,1);
+        //StepperMovement1(10,1);
+        //StepperMovement2(20,1);
+        //StepperMovement1(20,-1);
+        //StepperMovement2(40,-1);
+        Serial.print("Pos 1 = ");
+        Serial.println(CurrentPos1);
+        Serial.print("Pos 2 = ");
+        Serial.println(CurrentPos2);
 }
