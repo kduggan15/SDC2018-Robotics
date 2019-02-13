@@ -16,6 +16,7 @@ void setup() {
   CommunicationsSetup();
   MotionSetup();
   StepperSetup(100,16);
+  PiezoAlarmSetup();
 
   Serial.begin(9600);                 // Serial Communication for all modules that require it
 }

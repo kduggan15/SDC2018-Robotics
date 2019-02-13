@@ -6,10 +6,12 @@
 
 #include <Event.h>
 #include <Timer.h>
-
+#include "Pitches.h" 
+ 
 //Pin used for the piezo speaker 
 #define PiezoPin 5
 
+//Timer used for the speaker 
 Timer SpeakerTimer;
 
 //Function to set up the Piezo Speaker
@@ -18,27 +20,87 @@ void PiezoAlarmSetup(){
 }
 
 //Function to generate the Alarm sounds. 
+void SoundAwaitingController(){
+  tone(PiezoPin, NOTE_A6, 200);
+  delay(100);
+  tone(PiezoPin, NOTE_C6, 200);
+  delay(100);
+  tone(PiezoPin, NOTE_E6, 200);
+  delay(100);
+  tone(PiezoPin, NOTE_G6, 200);
+  delay(100);
+  tone(PiezoPin, NOTE_C6, 200);
+  delay(300);
+}
+
+//Function to generate the Alarm sounds. 
+void SoundControllerConnected(){
+  tone(PiezoPin, NOTE_A6, 200);
+  delay(100);
+  tone(PiezoPin, NOTE_C6, 200);
+  delay(100);
+  tone(PiezoPin, NOTE_E6, 200);
+  delay(100);
+  tone(PiezoPin, NOTE_G6, 200);
+  delay(100);
+  tone(PiezoPin, NOTE_A6, 200);
+  delay(300);
+  
+}
+
+//Function to generate the Alarm sounds. 
 void SoundAlarm(){
-  SpeakerTimer.pulse(PiezoPin, 500, HIGH);
-  SpeakerTimer.pulse(PiezoPin, 500, LOW);
-  SpeakerTimer.pulse(PiezoPin, 500, HIGH);
-  SpeakerTimer.pulse(PiezoPin, 500, LOW);
+  tone(PiezoPin, NOTE_A6, 300);
+  delay(300);
+  tone(PiezoPin, NOTE_F6, 400);
+  delay(300);
+  tone(PiezoPin, NOTE_A6, 300);
+  delay(300);
 }
 
 //Function to generate the Error sound.
 void SoundError(){
-  SpeakerTimer.pulse(PiezoPin, 500, HIGH);
-  SpeakerTimer.pulse(PiezoPin, 500, LOW);
-  SpeakerTimer.pulse(PiezoPin, 500, HIGH);
-  SpeakerTimer.pulse(PiezoPin, 500, LOW);
+  tone(PiezoPin, NOTE_F6, 400);
+  delay(300);
+  tone(PiezoPin, NOTE_F5, 400);
+  delay(300);
 }
 
 //Function to generate the Bootup sound. 
 void SoundBootup(){
-  SpeakerTimer.pulse(PiezoPin, 500, HIGH);
-  SpeakerTimer.pulse(PiezoPin, 500, LOW);
-  SpeakerTimer.pulse(PiezoPin, 500, HIGH);
-  SpeakerTimer.pulse(PiezoPin, 500, LOW);
+
+  tone(PiezoPin, NOTE_E7, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, NOTE_E7, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, 0, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, NOTE_E7, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, 0, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, NOTE_C7, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, NOTE_E7, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, 0, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, NOTE_G7, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, 0, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, 0, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, 0, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, NOTE_G6, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, 0, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, 0, 1000/12);
+  delay((1000/12)*1.30);
+  tone(PiezoPin, 0, 1000/12);
+  delay((1000/12)*1.30);
 }
 
 void setup() {
@@ -46,5 +108,13 @@ void setup() {
 }
 
 void loop() {
-  SoundAlarm();
-}
+  //SoundAlarm();
+  //delay(1000);
+  //SoundBootup();
+  //delay(1000);
+  //SoundError();
+  SoundAwaitingController();
+  delay(1000);
+  SoundControllerConnected();
+  delay(1000);
+}  
