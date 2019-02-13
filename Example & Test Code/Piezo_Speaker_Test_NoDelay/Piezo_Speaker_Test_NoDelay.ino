@@ -1,4 +1,3 @@
- 
 //This piece of code is used for generating sounds which can be used for events such as alarms, bootups, errors, etc. 
 //Requires the usage of a proper timer library like 'timer' due to disruptive delays created by delay().
 //https://playground.arduino.cc/Code/Timer
@@ -10,7 +9,7 @@
 #include "Pitches.h" 
  
 //Pin used for the piezo speaker 
-#define PiezoPin 12
+#define PiezoPin 5
 
 //Timer used for the speaker 
 Timer SpeakerTimer;
@@ -20,7 +19,7 @@ void PiezoAlarmSetup(){
   pinMode(PiezoPin, OUTPUT);  
 }
 
-//Function to generate the sounds for when connection with controller has not been extablished. 
+//Function to generate the Alarm sounds. 
 void SoundAwaitingController(){
   tone(PiezoPin, NOTE_A6, 200);
   delay(100);
@@ -34,7 +33,7 @@ void SoundAwaitingController(){
   delay(300);
 }
 
-//Function to generate the sounds for when connection with the controller is established. 
+//Function to generate the Alarm sounds. 
 void SoundControllerConnected(){
   tone(PiezoPin, NOTE_A6, 200);
   delay(100);
@@ -69,6 +68,7 @@ void SoundError(){
 
 //Function to generate the Bootup sound. 
 void SoundBootup(){
+
   tone(PiezoPin, NOTE_E7, 1000/12);
   delay((1000/12)*1.30);
   tone(PiezoPin, NOTE_E7, 1000/12);
@@ -102,3 +102,19 @@ void SoundBootup(){
   tone(PiezoPin, 0, 1000/12);
   delay((1000/12)*1.30);
 }
+
+void setup() {
+  PiezoAlarmSetup();
+}
+
+void loop() {
+  //SoundAlarm();
+  //delay(1000);
+  //SoundBootup();
+  //delay(1000);
+  //SoundError();
+  SoundAwaitingController();
+  delay(1000);
+  SoundControllerConnected();
+  delay(1000);
+}  

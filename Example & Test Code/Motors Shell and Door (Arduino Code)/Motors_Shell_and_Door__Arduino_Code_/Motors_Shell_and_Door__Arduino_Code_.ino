@@ -19,7 +19,7 @@ This code uses 2 dc motors connected to one motor driver and 4 endstops connecte
 const int ShellMotorCSpeed = 100;
 const int DoorMotorCSpeed = 100;
 
-void BodyMotionInit(){
+void BodyMotionSetup(){
   //Declaration of all pins, motors are outputs, endstops are inputs. 
   pinMode(MShellSpeed, OUTPUT);
   pinMode(MShellDir, OUTPUT);
@@ -96,7 +96,7 @@ void DoorEStop(){
 
 void setup() {
   // put your setup code here, to run once:
- BodyMotionInit();
+ BodyMotionSetup();
 }
 
 void loop() {
