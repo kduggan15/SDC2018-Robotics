@@ -1,4 +1,6 @@
- 
+#ifndef COMMUNICATIONS_H
+#define COMMUNICATIONS_H
+
 #include <Wire.h>
 
 #define SLAVE_ADDRESS 0x04
@@ -9,7 +11,8 @@ void receiveEvent(int bytes) {
 }
 
 void CommunicationsSetup(){
-  Wire.begin(SLAVE_ADDRESS); 
+  Wire.begin(SLAVE_ADDRESS);
   Wire.onReceive(receiveEvent);
 }
 
+#endif /* COMMUNICATIONS_H*/
