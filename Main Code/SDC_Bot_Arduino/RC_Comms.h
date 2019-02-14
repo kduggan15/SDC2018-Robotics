@@ -40,7 +40,7 @@ void onY2Throttle(int throttle)
   Serial.print("Y2 Throttle: ");
   Serial.println(throttle);
 }
-void RC_Comms_Setup()
+void RC_CommsSetup()
 {
   // tell the Arduino we want the function calcInput to be called whenever INT0 (digital pin 2) changes from HIGH to LOW or LOW to HIGH
   // catching these changes will allow us to calculate how long the input pulse is
