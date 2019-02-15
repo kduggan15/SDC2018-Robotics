@@ -5,8 +5,8 @@
 //library can be found here:
 //https://github.com/JChristensen/Timer
 
-#include <Event.h>
-#include <Timer.h>
+#include "Alarm/Event.h"
+#include "Alarm/Timer.h"
 #include "Pitches.h" 
  
 //Pin used for the piezo speaker 

@@ -1,4 +1,4 @@
- 
+
 /*
 This is a test control system for controlling the stepper motors which are used for the movement of the forks for the picking mechanism.
 It uses a specific library which can be found here:
@@ -9,7 +9,7 @@ https://www.pololu.com/product/1182
 
 The stepper drivers require two signals, Step and Direction, which control the step movement and direction of the stepper motor.
  */
-#include "A4988.h"
+#include "Stepper/A4988.h"
 
 //using a 200-step motor (most common)
 #define MOTOR_STEPS 200
@@ -18,7 +18,7 @@ The stepper drivers require two signals, Step and Direction, which control the s
 #define DIR1 2
 #define STEP1 3
 
-//Direction and Step pins used in the Arduino Mega for motor 2 
+//Direction and Step pins used in the Arduino Mega for motor 2
 #define DIR2 4
 #define STEP2 5
 
@@ -39,7 +39,7 @@ A4988 stepper2(MOTOR_STEPS, DIR2, STEP2);
 int StepsPerMM1 = 80;
 int StepsPerMM2 = 80;
 
-//Maximum axis Size for each of the axis (200 is an example value, based on full travel of axis) 
+//Maximum axis Size for each of the axis (200 is an example value, based on full travel of axis)
 int MaxSize1 = 200;
 int MaxSize2 = 200;
 
@@ -53,7 +53,7 @@ int DistanceSteps;
 //Stores the flag value which tells you if carriage will crash with the axis
 int DistanceFlag;
 
-//Setup function for stepper motors 
+//Setup function for stepper motors
 //MSpeed is the speed at which the motors will run in RPM
 //MStep is the microstepping setting for the motors (usually 16)
 int StepperSetup(int MSpeed, int MStep){
@@ -70,7 +70,7 @@ int StepperSetup(int MSpeed, int MStep){
     pinMode(SEndstop2, INPUT);
     pinMode(SEnable1, OUTPUT);
     pinMode(SEnable2, OUTPUT);
-    
+
     //Enabling Stepper Motors
     digitalWrite(SEnable1, LOW);
     digitalWrite(SEnable2, LOW);
@@ -79,14 +79,14 @@ int StepperSetup(int MSpeed, int MStep){
 
 //Movement Functions for both stepper motors
 //Distance is amount that needs to be moved in milimeters
-//Direction is the direction in which we want to move. Forwards = 1, Backwards = -1. 
+//Direction is the direction in which we want to move. Forwards = 1, Backwards = -1.
 int StepperMovement1(int Distance, int Direction){
   int temp1;
   DistanceFlag = 0;
 
   //Checks to make sure the stepper motor is not going to go over the maximum limit of the axis.
   //If the motor tries to move higher than this value, it could end up damaging or destroying the axis.
-  
+
   if (Direction == 1){
     temp1 = CurrentPos1;
     temp1 = temp1 + Distance;
@@ -98,22 +98,22 @@ int StepperMovement1(int Distance, int Direction){
         CurrentPos1 = CurrentPos1 + Distance;
       }
   }
-  
-  //Checks to make sure the stepper motor is not going to move beyond the lower limit of the axis. 
-  //If the motor moves beyond the lower limit of the axis, it could destroy the carriage or part of the axis. 
+
+  //Checks to make sure the stepper motor is not going to move beyond the lower limit of the axis.
+  //If the motor moves beyond the lower limit of the axis, it could destroy the carriage or part of the axis.
   else if(Direction == -1){
-     temp1 = CurrentPos1;   
+     temp1 = CurrentPos1;
      temp1 = temp1 - Distance;
-      
+
       if(temp1 < 0){
           DistanceFlag = 1;
       }
-      else{      
+      else{
           CurrentPos1 = CurrentPos1 - Distance;
       }
   }
 
-  
+
   //If everything is correct, sends the movement value to the stepper driver.
   if(DistanceFlag == 0){
         DistanceSteps = StepsPerMM1*Distance*Direction;
@@ -132,7 +132,7 @@ int StepperMovement2(int Distance, int Direction){
   if (Direction == 1){
       temp2 = CurrentPos2;
       temp2 = temp2 + Distance;
-      
+
       if(temp2 > MaxSize2){
          DistanceFlag = 1;
       }
@@ -144,7 +144,7 @@ int StepperMovement2(int Distance, int Direction){
   else if(Direction == -1){
       temp2 = CurrentPos2;
       temp2 = temp2 - Distance;
-      
+
       if(temp2 < 0){
           DistanceFlag = 1;
       }
@@ -163,28 +163,28 @@ int StepperMovement2(int Distance, int Direction){
 
 void HomingStepper1(){
   while(digitalRead(SEndstop1) != 0){
-    stepper1.move(-80*10); 
+    stepper1.move(-80*10);
   }
   stepper1.stop();
   stepper1.move(80*20);
   //Accuracy check
   while(digitalRead(SEndstop1) != 0){
-    stepper1.move(-80*10); 
+    stepper1.move(-80*10);
   }
   stepper1.stop();
   CurrentPos1 = 0;
-  
+
 }
 
 void HomingStepper2(){
   while(digitalRead(SEndstop2) != 0){
-  stepper2.move(-80*10); 
+  stepper2.move(-80*10);
   }
   stepper2.stop();
   stepper2.move(80*20);
   //Accuracy check
   while(digitalRead(SEndstop2) != 0){
-    stepper2.move(-80*10); 
+    stepper2.move(-80*10);
   }
   stepper2.stop();
   CurrentPos2 = 0;
@@ -206,5 +206,5 @@ void EmergencyStopDis(){
   //Disables the stepper drivers
   digitalWrite(SEnable1, LOW);
   digitalWrite(SEnable2, LOW);
-  
+
 }
