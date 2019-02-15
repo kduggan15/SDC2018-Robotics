@@ -85,6 +85,22 @@ int get_joy_LY()
   return value-1500;
 }
 
+int get_joy_RNip()
+{
+  int value;
+  rc_read_values();
+  value = rc_values[RC_CH3];
+  return value;
+}
+
+int get_joy_LNip()
+{
+  int value;
+  rc_read_values();
+  value = rc_values[RC_CH3];
+  return value;
+}
+
 void RC_CommsSetup() {
   Serial.begin(SERIAL_PORT_SPEED);
 
