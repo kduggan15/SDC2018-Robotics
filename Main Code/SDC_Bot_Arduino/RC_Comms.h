@@ -102,7 +102,7 @@ int get_joy_LNip()
 }
 
 void RC_CommsSetup() {
-  Serial.begin(SERIAL_PORT_SPEED);
+  //Serial.begin(SERIAL_PORT_SPEED);
 
   pinMode(RC_CH1_INPUT, INPUT);
   pinMode(RC_CH2_INPUT, INPUT);

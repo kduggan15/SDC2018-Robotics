@@ -13,7 +13,7 @@
 #define PiezoPin 12
 
 //Timer used for the speaker 
-Timer SpeakerTimer;
+//Timer SpeakerTimer;
 
 //Function to set up the Piezo Speaker
 void PiezoAlarmSetup(){
