@@ -31,7 +31,7 @@ void SoundAwaitingController(){
   tone(PiezoPin, NOTE_G6, 200);
   delay(100);
   tone(PiezoPin, NOTE_C6, 200);
-  delay(300);
+  delay(1000);
 }
 
 //Function to generate the sounds for when connection with the controller is established. 
