@@ -24,6 +24,9 @@ void setup() {
 }
 
 void loop() {
+  if(get_joy_RX() == -1500)
+  {
+    SoundAwaitingController();
+  }
   Serial.println(get_joy_RX());
-
 }
