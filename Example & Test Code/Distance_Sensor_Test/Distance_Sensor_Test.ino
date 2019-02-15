@@ -5,7 +5,7 @@
 //Definition of the pins used for the distance sensors. 
 
 //Pins used for front Left distance sensor
-#define TriggerFrontLeft 44
+#define TriggerFrontLeft 44 //working
 #define EchoFrontLeft 45
 
 //Pins used for the front right distance sensor
@@ -13,7 +13,7 @@
 #define EchoFrontRight 47
 
 //Pins used for the back distance sensor 
-#define TriggerBack 48
+#define TriggerBack 48 //working
 #define EchoBack 49
 
 //Pins used for the left side distance sensor
@@ -21,7 +21,7 @@
 #define EchoLeft 51
 
 //Pins used for the right side distance sensor
-#define TriggerRight 52
+#define TriggerRight 52 //working
 #define EchoRight 53  
 
 //Variables used for storing distance values of each of the sensors 
@@ -35,7 +35,7 @@ float DistanceRight = 0;
 const float DurationConstant = 0.034/2; 
 
 //Maximum value that the sensor can measure before the data becomes unusable
-const float MaximumDistance = 100.0; //100cm
+const float MaximumDistance = 500.0; //100cm
 
 //Function used to set up all the pins which will be used by the distance sensors. Should be added to the main code. 
 void DistanceSensorSetup(){
@@ -96,7 +96,7 @@ void DistanceGatherFrontRight(){
   //Reads the Echo Pin, returns the sound wave travel time in microseconds
   TempDuration = pulseIn(EchoFrontRight, HIGH);
   //Calculating the distance
-  DistanceFrontLeft = TempDuration*DurationConstant;
+  DistanceFrontRight = TempDuration*DurationConstant;
 
   //Checks to see wether the distance value is greater than then maximum range of the distance sensor
   if(DistanceFrontRight > MaximumDistance){
@@ -151,7 +151,7 @@ void DistanceGatherLeft(){
   digitalWrite(TriggerLeft, LOW);
   
   //Reads the Echo Pin, returns the sound wave travel time in microseconds
-  TempDuration = pulseIn(EchoBack, HIGH);
+  TempDuration = pulseIn(EchoLeft, HIGH);
   //Calculating the distance
   DistanceLeft = TempDuration*DurationConstant;
 
@@ -199,6 +199,7 @@ void DistanceGatherRight(){
 
 void setup() {
   DistanceSensorSetup();
+  Serial.begin(9600);
 }
 
 void loop(){
@@ -208,4 +209,5 @@ void loop(){
   DistanceGatherBack();
   DistanceGatherRight();
   DistanceGatherLeft();
+  delay(200);
 }

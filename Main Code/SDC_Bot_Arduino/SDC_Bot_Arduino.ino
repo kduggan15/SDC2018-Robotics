@@ -18,6 +18,7 @@ void setup() {
   //MotionSetup();
   //StepperSetup(100,16);
   //PiezoAlarmSetup();
+  //DistanceSensorSetup()
   RC_CommsSetup();
 
   Serial.begin(9600);                 // Serial Communication for all modules that require it
