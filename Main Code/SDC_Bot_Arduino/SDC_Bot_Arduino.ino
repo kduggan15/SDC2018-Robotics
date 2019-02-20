@@ -12,6 +12,8 @@
 //#include "Communications.h"           //Communications for sending and recieving information
 #include "RC_Comms.h"
 
+boolean soundPlaying;
+
 void setup() {
   //BodyMotionSetup();
   //CommunicationsSetup();
@@ -25,9 +27,15 @@ void setup() {
 }
 
 void loop() {
-  if(get_joy_RX() == -1500)
+  if(!rc_isOn())
   {
+    soundPlaying=true;
     SoundAwaitingController();
   }
+  if(rc_isOn() && soundPlaying==true)
+   {
+    soundPlaying=false;
+    SoundControllerConnected();
+   }
   Serial.println(get_joy_RX());
 }
