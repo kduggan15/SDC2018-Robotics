@@ -17,9 +17,9 @@ boolean soundPlaying;
 void setup() {
   //BodyMotionSetup();
   //CommunicationsSetup();
-  //MotionSetup();
+  MotionSetup();
   //StepperSetup(100,16);
-  //PiezoAlarmSetup();
+  PiezoAlarmSetup();
   //DistanceSensorSetup()
   RC_CommsSetup();
 
@@ -36,6 +36,19 @@ void loop() {
    {
     soundPlaying=false;
     SoundControllerConnected();
+   }
+   else
+   {
+    if(get_joy_RX() > 10)
+      MecRight(100);
+    else if(get_joy_RX() < -10)
+      MecLeft(100);
+    else if(get_joy_RY() > 10)
+      MecForwards(100);
+    else if(get_joy_RY() < -10)
+      MecBackwards(100);
+    else
+      MecStop();
    }
   Serial.println(get_joy_RX());
 }

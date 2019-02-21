@@ -113,7 +113,7 @@ boolean isOn_help()
   int value2;
   rc_read_values();
   value1 = rc_values[RC_CH1];
-  Serial.print("Value1: "); Serial.println(value1); 
+  Serial.print("Value1: "); Serial.println(value1);
   for (int i=0; i<cert; i++)
   {
     rc_read_values();
