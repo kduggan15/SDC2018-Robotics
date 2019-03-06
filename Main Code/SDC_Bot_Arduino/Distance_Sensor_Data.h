@@ -1,11 +1,20 @@
  /* Code used to gather the data of each of the distance sensors. 
    The information of the sensors is stored in global variables which can be accessed from anywhere in the code. 
+   
+   This piece of code uses the NewPing.h library, more documentation about it can be found here:
+   https://playground.arduino.cc/Code/NewPing
+   
+   Download link can be found here:
+   https://github.com/microflo/NewPing
 */
+
+#include <NewPing.h>
+
 
 //Definition of the pins used for the distance sensors. 
 
 //Pins used for front Left distance sensor
-#define TriggerFrontLeft 44 //working
+#define TriggerFrontLeft 44 
 #define EchoFrontLeft 45
 
 //Pins used for the front right distance sensor
@@ -13,7 +22,7 @@
 #define EchoFrontRight 47
 
 //Pins used for the back distance sensor 
-#define TriggerBack 48 //working
+#define TriggerBack 48 
 #define EchoBack 49
 
 //Pins used for the left side distance sensor
@@ -21,178 +30,55 @@
 #define EchoLeft 51
 
 //Pins used for the right side distance sensor
-#define TriggerRight 52 //working
+#define TriggerRight 52 
 #define EchoRight 53  
 
-//Variables used for storing distance values of each of the sensors 
-float DistanceFrontLeft = 0;
-float DistanceFrontRight = 0;
-float DistanceBack = 0;
-float DistanceLeft = 0;
-float DistanceRight = 0;
+//Stores value of Distance in the order Front Left, Front Right, Back, Left, Right. 
+int ProximityArray[5] = {0, 0, 0, 0, 0}; 
 
-//Constant value used for the calculations of the distance value
-const float DurationConstant = 0.034/2; 
+#define SONAR_NUM 5      // Number of sensors.
+#define MAX_DISTANCE 300 // Maximum distance (in cm) to ping.
 
-//Maximum value that the sensor can measure before the data becomes unusable
-const float MaximumDistance = 500.0; //100cm
+NewPing sonar[SONAR_NUM] = {   // Sensor object array.
+  // Each sensor's trigger pin, echo pin, and max distance to ping. 
+  NewPing(TriggerFrontLeft, EchoFrontLeft, MAX_DISTANCE), //Front Left
+  NewPing(TriggerFrontRight, EchoFrontRight, MAX_DISTANCE), //Front Right
+  NewPing(TriggerBack, EchoBack, MAX_DISTANCE), //Back
+  NewPing(TriggerLeft, EchoLeft, MAX_DISTANCE), //Left
+  NewPing(TriggerRight, EchoRight, MAX_DISTANCE), //Right
+};
 
-//Function used to set up all the pins which will be used by the distance sensors. Should be added to the main code. 
-void DistanceSensorSetup(){
-  
-  //Setup of all pins used by the distance sensors.
-  pinMode(TriggerFrontLeft, OUTPUT); 
-  pinMode(EchoFrontLeft, INPUT); 
-  pinMode(TriggerFrontRight, OUTPUT); 
-  pinMode(EchoFrontRight, INPUT); 
-  pinMode(TriggerBack, OUTPUT); 
-  pinMode(EchoBack, INPUT); 
-  pinMode(TriggerLeft, OUTPUT); 
-  pinMode(EchoLeft, INPUT); 
-  pinMode(TriggerRight, OUTPUT); 
-  pinMode(EchoRight, INPUT); 
-  
+void DistanceGather(){
+  for (uint8_t i = 0; i < SONAR_NUM; i++) { // Loop through each sensor and display results.
+    delay(30); // Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
+    ProximityArray[i] = sonar[i].ping_cm();
+  }
 }
 
-void DistanceGatherFrontLeft(){
-   float TempDuration;
-   
-  //Clears the Trigger Pin
-  digitalWrite(TriggerFrontLeft, LOW);
-  delayMicroseconds(2);
-  //Sets the Trigger Pin on HIGH state for 10 micro seconds
-  digitalWrite(TriggerFrontLeft, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TriggerFrontLeft, LOW);
+//Debug Function that displays the value of the distance at a specific point.
+
+void DistanceDisplay(){
+  Serial.print("FL:");
+  Serial.print(ProximityArray[0]);
   
-  //Reads the Echo Pin, returns the sound wave travel time in microseconds
-  TempDuration = pulseIn(EchoFrontLeft, HIGH);
-  // Calculating the distance
-  DistanceFrontLeft = TempDuration*DurationConstant;
+  Serial.print(" ");
 
-  //Checks to see wether the distance value is greater than then maximum range of the distance sensor
-  if(DistanceFrontLeft > MaximumDistance){
-    //Debugging  
-    Serial.print("FrontLeft - Target out of Range");
-    DistanceFrontLeft = MaximumDistance; 
-  }
- 
-  //Prints Distance in serial monitor (For debugging only)
-  Serial.print("Distance FrontLeft: ");
-  Serial.println(DistanceFrontLeft);
-}
-
-void DistanceGatherFrontRight(){
-   float TempDuration;
-   
-  //Clears the Trigger Pin
-  digitalWrite(TriggerFrontRight, LOW);
-  delayMicroseconds(2);
-  //Sets the Trigger Pin on HIGH state for 10 micro seconds
-  digitalWrite(TriggerFrontRight, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TriggerFrontRight, LOW);
+  Serial.print("FR:");
+  Serial.print(ProximityArray[1]);
   
-  //Reads the Echo Pin, returns the sound wave travel time in microseconds
-  TempDuration = pulseIn(EchoFrontRight, HIGH);
-  //Calculating the distance
-  DistanceFrontRight = TempDuration*DurationConstant;
+  Serial.print(" ");
 
-  //Checks to see wether the distance value is greater than then maximum range of the distance sensor
-  if(DistanceFrontRight > MaximumDistance){
-    //Debugging  
-    Serial.print("FrontRight - Target out of Range");
-    DistanceFrontRight = MaximumDistance; 
-  }
- 
-  //Prints Distance in serial monitor (For debugging only)
-  Serial.print("Distance FrontRight: ");
-  Serial.println(DistanceFrontRight); 
-}
-
-void DistanceGatherBack(){
-  float TempDuration;
-   
-  //Clears the Trigger Pin
-  digitalWrite(TriggerBack, LOW);
-  delayMicroseconds(2);
-  //Sets the Trigger Pin on HIGH state for 10 micro seconds
-  digitalWrite(TriggerBack, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TriggerBack, LOW);
+  Serial.print("B:");
+  Serial.print(ProximityArray[2]);
   
-  //Reads the Echo Pin, returns the sound wave travel time in microseconds
-  TempDuration = pulseIn(EchoBack, HIGH);
-  //Calculating the distance
-  DistanceBack = TempDuration*DurationConstant;
+  Serial.print(" ");
 
-  //Checks to see wether the distance value is greater than then maximum range of the distance sensor
-  if(DistanceBack > MaximumDistance){
-    //Debugging  
-    Serial.print("Back - Target out of Range");
-    DistanceBack = MaximumDistance; 
-  }
- 
-  //Prints Distance in serial monitor (For debugging only)
-  Serial.print("Distance Back: ");
-  Serial.println(DistanceBack);
-    
-}
-
-void DistanceGatherLeft(){
-  float TempDuration;
-   
-  //Clears the Trigger Pin
-  digitalWrite(TriggerLeft, LOW);
-  delayMicroseconds(2);
-  //Sets the Trigger Pin on HIGH state for 10 micro seconds
-  digitalWrite(TriggerLeft, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TriggerLeft, LOW);
+  Serial.print("L:");
+  Serial.print(ProximityArray[3]);
   
-  //Reads the Echo Pin, returns the sound wave travel time in microseconds
-  TempDuration = pulseIn(EchoLeft, HIGH);
-  //Calculating the distance
-  DistanceLeft = TempDuration*DurationConstant;
+  Serial.print(" ");
 
-  //Checks to see wether the distance value is greater than then maximum range of the distance sensor
-  if(DistanceLeft > MaximumDistance){
-    //Debugging  
-    Serial.print("Left - Target out of Range");
-    DistanceLeft = MaximumDistance; 
-  }
- 
-  //Prints Distance in serial monitor (For debugging only)
-  Serial.print("Distance Left: ");
-  Serial.println(DistanceLeft);
-  
-}
-
-void DistanceGatherRight(){
-  float TempDuration;
-   
-  //Clears the Trigger Pin
-  digitalWrite(TriggerRight, LOW);
-  delayMicroseconds(2);
-  //Sets the Trigger Pin on HIGH state for 10 micro seconds
-  digitalWrite(TriggerRight, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TriggerLeft, LOW);
-  
-  //Reads the Echo Pin, returns the sound wave travel time in microseconds
-  TempDuration = pulseIn(EchoRight, HIGH);
-  //Calculating the distance
-  DistanceRight = TempDuration*DurationConstant;
-
-  //Checks to see wether the distance value is greater than then maximum range of the distance sensor
-  if(DistanceRight > MaximumDistance){
-    //Debugging  
-    Serial.print("Right - Target out of Range");
-    DistanceRight = MaximumDistance; 
-  }
- 
-  //Prints Distance in serial monitor (For debugging only)
-  Serial.print("Distance Right: ");
-  Serial.println(DistanceRight);
+  Serial.print("R:");
+  Serial.println(ProximityArray[4]);
   
 }

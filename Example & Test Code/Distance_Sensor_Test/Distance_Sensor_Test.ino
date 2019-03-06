@@ -24,15 +24,14 @@
 #define TriggerRight 52 //working
 #define EchoRight 53  
 
+unsigned long DelaySensor = 200000;
+
 //Variables used for storing distance values of each of the sensors 
 float DistanceFrontLeft = 0;
 float DistanceFrontRight = 0;
 float DistanceBack = 0;
 float DistanceLeft = 0;
 float DistanceRight = 0;
-
-//Constant value used for the calculations of the distance value
-const float DurationConstant = 0.034/2; 
 
 //Maximum value that the sensor can measure before the data becomes unusable
 const float MaximumDistance = 500.0; //100cm
@@ -66,9 +65,9 @@ void DistanceGatherFrontLeft(){
   digitalWrite(TriggerFrontLeft, LOW);
   
   //Reads the Echo Pin, returns the sound wave travel time in microseconds
-  TempDuration = pulseIn(EchoFrontLeft, HIGH);
+  TempDuration = pulseIn(EchoFrontLeft, HIGH, DelaySensor);
   // Calculating the distance
-  DistanceFrontLeft = TempDuration*DurationConstant;
+  DistanceFrontLeft = (TempDuration/2)/29.1;
 
   //Checks to see wether the distance value is greater than then maximum range of the distance sensor
   if(DistanceFrontLeft > MaximumDistance){
@@ -94,9 +93,9 @@ void DistanceGatherFrontRight(){
   digitalWrite(TriggerFrontRight, LOW);
   
   //Reads the Echo Pin, returns the sound wave travel time in microseconds
-  TempDuration = pulseIn(EchoFrontRight, HIGH);
+  TempDuration = pulseIn(EchoFrontRight, HIGH, DelaySensor);
   //Calculating the distance
-  DistanceFrontRight = TempDuration*DurationConstant;
+  DistanceFrontRight  = (TempDuration/2)/29.1;
 
   //Checks to see wether the distance value is greater than then maximum range of the distance sensor
   if(DistanceFrontRight > MaximumDistance){
@@ -122,9 +121,9 @@ void DistanceGatherBack(){
   digitalWrite(TriggerBack, LOW);
   
   //Reads the Echo Pin, returns the sound wave travel time in microseconds
-  TempDuration = pulseIn(EchoBack, HIGH);
+  TempDuration = pulseIn(EchoBack, HIGH, DelaySensor);
   //Calculating the distance
-  DistanceBack = TempDuration*DurationConstant;
+  DistanceBack  = (TempDuration/2)/29.1;
 
   //Checks to see wether the distance value is greater than then maximum range of the distance sensor
   if(DistanceBack > MaximumDistance){
@@ -151,9 +150,9 @@ void DistanceGatherLeft(){
   digitalWrite(TriggerLeft, LOW);
   
   //Reads the Echo Pin, returns the sound wave travel time in microseconds
-  TempDuration = pulseIn(EchoLeft, HIGH);
+  TempDuration = pulseIn(EchoLeft, HIGH, DelaySensor);
   //Calculating the distance
-  DistanceLeft = TempDuration*DurationConstant;
+  DistanceLeft  = (TempDuration/2)/29.1;
 
   //Checks to see wether the distance value is greater than then maximum range of the distance sensor
   if(DistanceLeft > MaximumDistance){
@@ -180,9 +179,9 @@ void DistanceGatherRight(){
   digitalWrite(TriggerLeft, LOW);
   
   //Reads the Echo Pin, returns the sound wave travel time in microseconds
-  TempDuration = pulseIn(EchoRight, HIGH);
+  TempDuration = pulseIn(EchoRight, HIGH, DelaySensor);
   //Calculating the distance
-  DistanceRight = TempDuration*DurationConstant;
+  DistanceRight  = (TempDuration/2)/29.1;
 
   //Checks to see wether the distance value is greater than then maximum range of the distance sensor
   if(DistanceRight > MaximumDistance){
@@ -209,5 +208,5 @@ void loop(){
   DistanceGatherBack();
   DistanceGatherRight();
   DistanceGatherLeft();
-  delay(200);
+  //delay(200);
 }

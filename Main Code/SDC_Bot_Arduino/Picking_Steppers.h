@@ -9,7 +9,7 @@ https://www.pololu.com/product/1182
 
 The stepper drivers require two signals, Step and Direction, which control the step movement and direction of the stepper motor.
  */
-#include "Stepper/A4988.h"
+#include <A4988.h>
 
 //using a 200-step motor (most common)
 #define MOTOR_STEPS 200
