@@ -18,6 +18,8 @@ float VoltageDividerRatio2 = (10000.0/(10000.0+10000.0)); //Resistor divider con
 const float ChargedVoltage = 12.6; //Voltage at which the battery is full.
 const float DischargeVoltage = 9.5; //Voltage at which battery is discharged, any lower than this and the battery could be damaged.
 
+bool LowVoltageFlag = 0; 
+
 //Reads the analog voltage value of the battery and and stores it in the two storage variables. 
 void BatteryVoltageRead(){
 
@@ -29,16 +31,4 @@ void BatteryVoltageRead(){
   BatteryVoltage1 = ((map(BatteryVoltage1Temp, 0, 1023, 0.0, 5.0))*VoltageDividerRatio1);
   BatteryVoltage2 = ((map(BatteryVoltage2Temp, 0, 1023, 0.0, 5.0))*VoltageDividerRatio2);
   
-}
-
-//Engages emergency power off mode which turns off all stepper motors and dc motors when the battery is too low.
-void BatteryLowVoltage(){
-
-  //Checks battery voltages to make sure they are higher than discharge voltage, if they are not, shuts down motors. 
-  if((BatteryVoltage1 < DischargeVoltage) && (BatteryVoltage2 < DischargeVoltage)){
-    EmergencyStopEN();
-    MecStop();
-    ShellEStop();
-    DoorEStop();
-  }
 }
