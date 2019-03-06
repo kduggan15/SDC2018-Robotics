@@ -30,6 +30,7 @@
 uint16_t rc_values[RC_NUM_CHANNELS];
 uint32_t rc_start[RC_NUM_CHANNELS];
 volatile uint16_t rc_shared[RC_NUM_CHANNELS];
+boolean rc_on;
 
 void rc_read_values() {
   noInterrupts();
@@ -38,6 +39,7 @@ void rc_read_values() {
 }
 
 void calc_input(uint8_t channel, uint8_t input_pin) {
+  rc_on=true;
   if (digitalRead(input_pin) == HIGH) {
     rc_start[channel] = micros();
   } else {
@@ -81,7 +83,7 @@ int get_joy_LY()
 {
   int value;
   rc_read_values();
-  value = rc_values[RC_CH3];
+  value = rc_values[RC_CH4];
   return value-1500;
 }
 
@@ -89,7 +91,7 @@ int get_joy_RNip()
 {
   int value;
   rc_read_values();
-  value = rc_values[RC_CH3];
+  value = rc_values[RC_CH5];
   return value;
 }
 
@@ -97,8 +99,38 @@ int get_joy_LNip()
 {
   int value;
   rc_read_values();
-  value = rc_values[RC_CH3];
+  value = rc_values[RC_CH6];
   return value;
+}
+
+boolean isOn_help()
+{
+  rc_on = false;
+  delay(100);
+  return rc_on;
+  /*
+  int value1;
+  int value2;
+  rc_read_values();
+  value1 = rc_values[RC_CH1];
+  Serial.print("Value1: "); Serial.println(value1);
+  for (int i=0; i<cert; i++)
+  {
+    rc_read_values();
+    value2 = rc_values[RC_CH1];
+    Serial.print("    Value2:"); Serial.println(value2);
+    if(value2!=value1)
+      return true;
+  }
+  return false;
+  */
+}
+
+boolean rc_isOn()
+{
+  rc_on = isOn_help();
+  Serial.println(rc_on);
+  return rc_on;
 }
 
 void RC_CommsSetup() {
@@ -117,6 +149,15 @@ void RC_CommsSetup() {
   attachPinChangeInterrupt(RC_CH4_INT, calc_ch4, CHANGE);
   attachPinChangeInterrupt(RC_CH5_INT, calc_ch5, CHANGE);
   attachPinChangeInterrupt(RC_CH6_INT, calc_ch6, CHANGE);
+
+  if(get_joy_RX() == -1500)
+  {
+    rc_on=false;
+  }
+  else
+  {
+    rc_on = true;
+  }
 }
 
 #endif /* RC_COMMS_H*/

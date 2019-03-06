@@ -1,11 +1,11 @@
- 
+
 //This code is used for the movement of the Mecanum wheels for the robot.
-//This uses the diagram found in the link below in order to generate the motion of the wheels. 
+//This uses the diagram found in the link below in order to generate the motion of the wheels.
 //https://www.superdroidrobots.com/images/customPages/mecanum_drive_wheels_vectoring_robot.jpg
-//This only requires the use PWM. 
+//This only requires the use PWM.
 
 
-//First DC motor driver for movement 
+//First DC motor driver for movement
 
 //Motor 1 (Speed and Direction)
 #define MSpeed1 6
@@ -19,11 +19,11 @@
 //Second DC motor driver for movement
 
 //Motor 3 (Speed and Direction)
-#define MSpeed3 8
+#define MSpeed3 9
 #define MDir3 26
 
 //Motor 4 (Speed and Direction)
-#define MSpeed4 9
+#define MSpeed4 10
 #define MDir4 28
 
 //Easy initialization which can be called from other parts of the code.
@@ -39,7 +39,7 @@ void MotionSetup(){
   pinMode(MDir4, OUTPUT);
 }
 
-//Speeds need to be assigned as numbers between 0-255. 
+//Speeds need to be assigned as numbers between 0-255.
 
 //Forwards motion
 void MecForwards(int speed){
@@ -69,7 +69,7 @@ void MecBackwards(int speed){
   analogWrite(MSpeed2, speed);
   analogWrite(MSpeed3, speed);
   analogWrite(MSpeed4, speed);
-  
+
 }
 
 //Right stiffle motion
@@ -85,7 +85,7 @@ void MecRight(int speed){
   analogWrite(MSpeed2, speed);
   analogWrite(MSpeed3, speed);
   analogWrite(MSpeed4, speed);
-  
+
 }
 
 //Left striffle motion
@@ -101,7 +101,7 @@ void MecLeft(int speed){
   analogWrite(MSpeed2, speed);
   analogWrite(MSpeed3, speed);
   analogWrite(MSpeed4, speed);
-  
+
 }
 
 //Clockwise motion
@@ -117,7 +117,7 @@ void MecCW(int speed){
   analogWrite(MSpeed2, speed);
   analogWrite(MSpeed3, speed);
   analogWrite(MSpeed4, speed);
-  
+
 }
 
 //CounterClockwise motion
@@ -133,7 +133,7 @@ void MecCCW(int speed){
   analogWrite(MSpeed2, speed);
   analogWrite(MSpeed3, speed);
   analogWrite(MSpeed4, speed);
-  
+
 }
 
 void MecStop(){
@@ -148,6 +148,5 @@ void MecStop(){
   analogWrite(MSpeed2, 0);
   analogWrite(MSpeed3, 0);
   analogWrite(MSpeed4, 0);
-  
+
 }
-  
