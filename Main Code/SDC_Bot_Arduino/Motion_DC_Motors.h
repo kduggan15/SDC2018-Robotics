@@ -40,6 +40,8 @@ void MotionSetup(){
 }
 
 //Speeds need to be assigned as numbers between 0-255.
+// HIGH = Forwards, LOW = Backwards
+// Anywhere where Speed = 0, means that the motor is turned off. 
 
 //Forwards motion
 void MecForwards(int speed){
@@ -136,6 +138,69 @@ void MecCCW(int speed){
 
 }
 
+/*
+ * Functions for diagonal motion
+ */
+
+//Moves the motor diagonally towards the front-left direction
+void MecFLeft(int speed){
+//Speeds
+  digitalWrite(MDir1, LOW);
+  digitalWrite(MDir2, HIGH);
+  digitalWrite(MDir3, HIGH);
+  digitalWrite(MDir4, LOW);
+//Directions
+  analogWrite(MSpeed1, 0);
+  analogWrite(MSpeed2, speed);
+  analogWrite(MSpeed3, speed);
+  analogWrite(MSpeed4, 0);
+  
+}
+
+//Moves the motor diagonally towards the front-right direction
+void MecFRight(int speed){
+  //Speeds
+  digitalWrite(MDir1, HIGH);
+  digitalWrite(MDir2, LOW);
+  digitalWrite(MDir3, LOW);
+  digitalWrite(MDir4, HIGH);
+//Directions
+  analogWrite(MSpeed1, speed);
+  analogWrite(MSpeed2, 0);
+  analogWrite(MSpeed3, 0);
+  analogWrite(MSpeed4, speed);
+}
+
+//Moves the motor diagonally towards the back-left direction
+void MecBLeft(int speed){
+  //Speeds
+  digitalWrite(MDir1, LOW);
+  digitalWrite(MDir2, LOW);
+  digitalWrite(MDir3, LOW);
+  digitalWrite(MDir4, LOW);
+//Directions
+  analogWrite(MSpeed1, speed);
+  analogWrite(MSpeed2, 0);
+  analogWrite(MSpeed3, 0);
+  analogWrite(MSpeed4, speed);
+}
+
+//Moves the motor diagonally towards the back-right direction
+void MecBRight(int speed){
+//Speeds
+  digitalWrite(MDir1, LOW);
+  digitalWrite(MDir2, LOW);
+  digitalWrite(MDir3, LOW);
+  digitalWrite(MDir4, LOW);
+//Directions
+  analogWrite(MSpeed1, 0);
+  analogWrite(MSpeed2, speed);
+  analogWrite(MSpeed3, speed);
+  analogWrite(MSpeed4, 0);
+  
+}
+
+//Emergency or regular stop function for the moving mechanism
 void MecStop(){
 
 //Speeds

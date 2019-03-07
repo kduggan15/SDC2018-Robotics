@@ -1,8 +1,8 @@
 
 /*This is the main code used for the SDC CCNY robot.
  *
+ *If you're having any issues compiling the code, and it's related to libraries, use the libraries in "libraries" folder. Drag them to the Arduino/libraries folder.
  */
-
 #include "Door_Shell_DC_Motor.h"      //Motion for the DC motors used for the door and shell mechanism
 #include "Motion_DC_Motors.h"         //Motion for the DC motors used for the mecanum wheels to move the robot
 #include "Distance_Sensor_Data.h"     //Information adquired from distance sensors
