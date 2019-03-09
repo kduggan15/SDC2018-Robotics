@@ -3,6 +3,10 @@
  *
  *If you're having any issues compiling the code, and it's related to libraries, use the libraries in "libraries" folder. Drag them to the Arduino/libraries folder.
  */
+ 
+//Systemwide Debug for Serial Output 0 = OFF, 1 = ON. 
+bool SystemDebug = 1;
+
 #include "Door_Shell_DC_Motor.h"      //Motion for the DC motors used for the door and shell mechanism
 #include "Motion_DC_Motors.h"         //Motion for the DC motors used for the mecanum wheels to move the robot
 #include "Distance_Sensor_Data.h"     //Information adquired from distance sensors
@@ -14,47 +18,27 @@
 #include "PowerManagement.h"          //Deals with power management and battery voltages
 #include "Control_System.h"           //All the code related to connecting all previous code together, call functions from this boy on the loop
 
-boolean soundPlaying;
-
 void setup() {
+  //Setups for all pieces of code that need setups.
   BodyMotionSetup();
   MotionSetup();
   StepperSetup(100,16);
   StepperSetup(100,16);
   PiezoAlarmSetup();
   RC_CommsSetup();
+  IMU_setup();
 
-  Serial.begin(9600);                 // Serial Communication for all modules that require it
+  Serial.begin(9600);                 // Serial Communication for all modules that require it for debugging
 }
 
 void loop() {
 
- /* if(get_joy_RX() == -1500)
-  if(!rc_isOn())
-  {
-    soundPlaying=true;
-    SoundAwaitingController();
+  BatteryCheck(); //Battery level check, does not allow any of the systems to run if battery is far too low
+
+  //Anything that needs to run if battery is not too low goes here
+  if(LowVoltageFlag == 0){
+    MovementController();
   }
-  //Serial.println(get_joy_RX());
-*/
-  if(rc_isOn() && soundPlaying==true)
-   {
-    soundPlaying=false;
-    SoundControllerConnected();
-   }
-   else
-   {
-    if(get_joy_RX() > 10)
-      MecRight(100);
-    else if(get_joy_RX() < -10)
-      MecLeft(100);
-    else if(get_joy_RY() > 10)
-      MecForwards(100);
-    else if(get_joy_RY() < -10)
-      MecBackwards(100);
-    else
-      MecStop();
-   }
-  Serial.println(get_joy_RX());
+ 
 
 }

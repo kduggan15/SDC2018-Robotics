@@ -18,7 +18,7 @@ float VoltageDividerRatio2 = (10000.0/(10000.0+10000.0)); //Resistor divider con
 const float ChargedVoltage = 12.6; //Voltage at which the battery is full.
 const float DischargeVoltage = 9.5; //Voltage at which battery is discharged, any lower than this and the battery could be damaged.
 
-bool LowVoltageFlag = 0; 
+bool LowVoltageFlag = 0; //Flag used to denote the fact that the battery voltage is too low, 0 = Ok, 1 = Low Voltage. 
 
 //Reads the analog voltage value of the battery and and stores it in the two storage variables. 
 void BatteryVoltageRead(){
