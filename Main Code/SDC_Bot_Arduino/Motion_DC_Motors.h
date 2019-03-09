@@ -209,7 +209,7 @@ void MecStop(){
   digitalWrite(MDir3, LOW);
   digitalWrite(MDir4, LOW);
 //Directions
-  analogWrite(MSpeed1, 0);cann
+  analogWrite(MSpeed1, 0);
   analogWrite(MSpeed2, 0);
   analogWrite(MSpeed3, 0);
   analogWrite(MSpeed4, 0);
