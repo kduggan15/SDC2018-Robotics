@@ -41,7 +41,7 @@ void MotionSetup(){
 
 //Speeds need to be assigned as numbers between 0-255.
 // HIGH = Forwards, LOW = Backwards
-// Anywhere where Speed = 0, means that the motor is turned off. 
+// Anywhere where Speed = 0, means that the motor is turned off.
 
 //Forwards motion
 void MecForwards(int speed){
@@ -154,7 +154,7 @@ void MecFLeft(int speed){
   analogWrite(MSpeed2, speed);
   analogWrite(MSpeed3, speed);
   analogWrite(MSpeed4, 0);
-  
+
 }
 
 //Moves the motor diagonally towards the front-right direction
@@ -197,7 +197,7 @@ void MecBRight(int speed){
   analogWrite(MSpeed2, speed);
   analogWrite(MSpeed3, speed);
   analogWrite(MSpeed4, 0);
-  
+
 }
 
 //Emergency or regular stop function for the moving mechanism
@@ -209,7 +209,7 @@ void MecStop(){
   digitalWrite(MDir3, LOW);
   digitalWrite(MDir4, LOW);
 //Directions
-  analogWrite(MSpeed1, 0);
+  analogWrite(MSpeed1, 0);cann
   analogWrite(MSpeed2, 0);
   analogWrite(MSpeed3, 0);
   analogWrite(MSpeed4, 0);
