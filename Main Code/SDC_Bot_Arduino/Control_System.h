@@ -51,7 +51,7 @@ void StopAll(){
 //Piece of code used to move the bot with the controller, previously located in the main file. 
 void MovementController(){
 
-  
+  /*
   if(!rc_isOn())
   {
     soundPlaying=true;
@@ -67,7 +67,7 @@ void MovementController(){
    
    else
    {
-
+*/
     //Movement Right
     if((get_joy_RX() > 10) && ((get_joy_RY() < 10) && (get_joy_RY() > -10))){
       
@@ -151,7 +151,7 @@ void MovementController(){
       }
     }
   
-}
+//}
 
 //uses the motion sensors in order to detect any objects that might be in front or around the bot. Stops if too close to them. 
 void ManualDriveCollisionAvoidance(){
