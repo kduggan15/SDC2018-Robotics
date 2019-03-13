@@ -31,9 +31,11 @@ uint16_t rc_values[RC_NUM_CHANNELS];
 uint32_t rc_start[RC_NUM_CHANNELS];
 volatile uint16_t rc_shared[RC_NUM_CHANNELS];
 boolean rc_on;
+unsigned long rc_timer;
 
 void rc_read_values() {
   noInterrupts();
+  rc_timer = millis();//  Stores the time when the rc is last updated for determining if the rc is on
   memcpy(rc_values, (const void *)rc_shared, sizeof(rc_shared));
   interrupts();
 }
@@ -103,32 +105,11 @@ int get_joy_LNip()
   return value;
 }
 
-boolean isOn_help()
-{
-  rc_on = false;
-  delay(100);
-  return rc_on;
-  /*
-  int value1;
-  int value2;
-  rc_read_values();
-  value1 = rc_values[RC_CH1];
-  Serial.print("Value1: "); Serial.println(value1);
-  for (int i=0; i<cert; i++)
-  {
-    rc_read_values();
-    value2 = rc_values[RC_CH1];
-    Serial.print("    Value2:"); Serial.println(value2);
-    if(value2!=value1)
-      return true;
-  }
-  return false;
-  */
-}
-
 boolean rc_isOn()
 {
-  rc_on = isOn_help();
+  rc_on = true;
+  if (millis()-rc_timer > 1000)
+    rc_on = false;
   Serial.println(rc_on);
   return rc_on;
 }
