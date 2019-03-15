@@ -135,20 +135,23 @@ void MovementController(){
       Serial.print("RightX=");
       Serial.print(get_joy_RX());
   
-      Serial.print(" RightY=");
+      Serial.print(" \tRightY=");
       Serial.print(get_joy_RY());
   
-      Serial.print(" LeftX=");  
+      Serial.print(" \tLeftX=");  
       Serial.print(get_joy_LX());
   
-      Serial.print(" LeftY=");  
+      Serial.print(" \tLeftY=");  
       Serial.print(get_joy_LY());
 
-      Serial.print(" AnalogX=");  
+      Serial.print(" \tLButton=");  
+      Serial.print(get_joy_LNip());
+
+      Serial.print(" \tRButton=");  
       Serial.print(get_joy_RNip());
 
-      Serial.print(" AnalogY=");  
-      Serial.println(get_joy_LY());
+      Serial.print("RB1 down:");
+      Serial.println(get_RB1_press());
       }
     }
   
@@ -249,11 +252,19 @@ void ManualDriveCollisionAvoidance(){
       Serial.print(" LeftY=");  
       Serial.print(get_joy_LY());
 
-      Serial.print(" AnalogX=");  
+      Serial.print(" RightButton=");  
       Serial.print(get_joy_RNip());
 
-      Serial.print(" AnalogY=");  
-      Serial.println(get_joy_LY());
+      Serial.print(" RightButton=");  
+      Serial.println(get_joy_LNip());
+      
+      Serial.print("RB1 down:");
+      Serial.println(get_RB1_press());
+      }
+      if(SystemDebug=2)
+      {
+        Serial.print("RB1 down:");
+        Serial.println(get_RB1_press());
       }
     }
 }

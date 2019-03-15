@@ -104,6 +104,15 @@ int get_joy_LNip()
   value = rc_values[RC_CH6];
   return value;
 }
+#define BUTTON_TOL 8
+#define RB1 1552
+boolean get_RB1_press()
+{
+  int value;
+  rc_read_values();
+  value = rc_values[RC_CH5];
+  return (value>RB1-BUTTON_TOL && value < RB1+BUTTON_TOL);
+}
 
 boolean rc_isOn()
 {
