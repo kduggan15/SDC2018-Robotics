@@ -150,7 +150,7 @@ void MovementController(){
       Serial.print(" \tRButton=");  
       Serial.print(get_joy_RNip());
 
-      Serial.print("RB1 down:");
+      Serial.print(" RB1 down:");
       Serial.println(get_RB1_press());
       }
     }
