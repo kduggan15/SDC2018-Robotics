@@ -4,7 +4,8 @@
  *If you're having any issues compiling the code, and it's related to libraries, use the libraries in "libraries" folder. Drag them to the Arduino/libraries folder.
  */
 
-//Systemwide Debug for Serial Output 0 = OFF, 1 = STANDARD, 2 = Analog stick debug. 
+//Systemwide Debug for Serial Output 0 = OFF, 1 = STANDARD, 2 = Analog stick debug.
+//More can be added
 int SystemDebug = 2;
 
 #include "Door_Shell_DC_Motor.h"      //Motion for the DC motors used for the door and shell mechanism
