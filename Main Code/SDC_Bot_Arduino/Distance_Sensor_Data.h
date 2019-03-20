@@ -9,6 +9,8 @@
 */
 
 #include <NewPing.h>
+//This causes errors out of the box
+//Go to /Arduino/libraries/NewPing/src/NewPing.h and set #define TIMER_ENABLED false
 
 
 //Definition of the pins used for the distance sensors. 

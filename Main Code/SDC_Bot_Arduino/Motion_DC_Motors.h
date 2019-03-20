@@ -15,9 +15,6 @@
 #define MSpeed2 7
 #define MDir2 24
 
-
-//Second DC motor driver for movement
-
 //Motor 3 (Speed and Direction)
 #define MSpeed3 9
 #define MDir3 26

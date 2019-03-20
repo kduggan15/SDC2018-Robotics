@@ -1,9 +1,10 @@
 /*Code that manages all the control systems of the bot and bring all the pieces of code from other files together.
- *  
- *  
- *  
- */ 
-
+ *
+ *
+ *
+ */
+#define MODE_MOTION
+#define MODE_PICKPLACE
 boolean soundPlaying;
 
 void StopAll(){
@@ -21,12 +22,12 @@ void StopAll(){
 
    //Checks for battery voltage
    if((BatteryVoltage1 <=DischargeVoltage) && (BatteryVoltage2 <= DischargeVoltage)){
-    
+
     LowVoltageFlag = 1; //sets the low voltage flag
     StopAll();
     SoundAlarm(); //Sounds alarm to alert the user that the battery voltage is low
 
-    if(SystemDebug = 1){
+    if(SystemDebug == 1){
       Serial.print("Warning: Battery Low Voltage: B1-");
       Serial.print(BatteryVoltage1); Serial.print("V");
       Serial.print(" B2-");
@@ -35,11 +36,11 @@ void StopAll(){
    }
 
    else if((BatteryVoltage1 > DischargeVoltage) && (BatteryVoltage2 > DischargeVoltage)){
-    
-    LowVoltageFlag = 0; //resets the low voltage flag    
+
+    LowVoltageFlag = 0; //resets the low voltage flag
     EmergencyStopDis(); //enables the stepper motors
 
-     if(SystemDebug = 1){
+     if(SystemDebug == 1){
       Serial.print("Battery OK: B1-");
       Serial.print(BatteryVoltage1); Serial.print("V");
       Serial.print(" B2-");
@@ -48,8 +49,9 @@ void StopAll(){
    }
  }
 
-//Piece of code used to move the bot with the controller, previously located in the main file. 
+//Piece of code used to move the bot with the controller, previously located in the main file.
 void MovementController(){
+  int speed;
 
   /*
   if(!rc_isOn())
@@ -64,96 +66,129 @@ void MovementController(){
     soundPlaying=false;
     SoundControllerConnected();
    }
-   
+
    else
    {
 */
     //Movement Right
     if((get_joy_RX() > 10) && ((get_joy_RY() < 10) && (get_joy_RY() > -10))){
-      
-      MecRight(map(get_joy_RX(), 10, 420, 0, 255));
-
-      Serial.println("Moving Right");
+      speed = map(get_joy_RX(), 10, 420, 0, 255);
+      MecRight(speed);
+      if(SystemDebug==2)
+      {
+        Serial.print("Moving Right by "); Serial.println(speed);
+      }
     }
-    //Movement Left  
+    //Movement Left
     else if((get_joy_RX() < -10) && ((get_joy_RY() < 10) && (get_joy_RY() > -10))){
-      MecLeft(map(get_joy_RX(), -10, -370, 0, 255));
+      speed = map(get_joy_RX(), -10, -370, 0, 255);
+      MecLeft(speed);
 
-     Serial.println("Moving Left");
+      if(SystemDebug==2)
+      {
+        Serial.print("Moving Left by "); Serial.println(speed);
+      }
     }
-    
-    //Movement Forwards  
+
+    //Movement Forwards
     else if((get_joy_RY() > 10) && ((get_joy_RX() < 10) && (get_joy_RX() > -10)) ){
-      MecForwards(map(get_joy_RY(), 10, 320, 0, 255));
+      speed = map(get_joy_RY(), 10, 320, 0, 255);
+      MecForwards(speed);
 
-      Serial.println("MovingForwards");
+      if(SystemDebug==2)
+      {
+        Serial.print("Moving Forward by "); Serial.println(speed);
+      }
     }
-    
-    //Movement Backwards  
+
+    //Movement Backwards
     else if((get_joy_RY() < -10) && ((get_joy_RX() < 10) && (get_joy_RX() > -10))){
-      MecBackwards(map(get_joy_RY(), -10, -350, 0, 255));
-      
-      Serial.println("Moving Backwards");
+      speed = map(get_joy_RY(), -10, -350, 0, 255);
+      MecBackwards(speed);
+
+      if(SystemDebug==2)
+      {
+        Serial.print("Moving Backwards by "); Serial.println(speed);
+      }
     }
-    
+
     //Diagonal Left-Fowards
     else if((get_joy_RX() < -60) && (get_joy_RY() > 60)){
-      MecFLeft(map(sqrt(pow(get_joy_RX(),2)+pow(get_joy_RY(),2)), 0, 497, 0, 255));
-      
-      Serial.println("Moving Diagonal Left-Forwards");
+      speed = map(sqrt(pow(get_joy_RX(),2)+pow(get_joy_RY(),2)), 0, 497, 0, 255);
+      MecFLeft(speed);
+
+      if(SystemDebug==2)
+      {
+        Serial.print("Moving Diagonal Left-Foward by "); Serial.println(speed);
+      }
     }
 
     //Diagonal Right-Forwards
     else if((get_joy_RX() > 60) && (get_joy_RY() > 60)){
-      MecFRight(map(sqrt(pow(get_joy_RX(),2)+pow(get_joy_RY(),2)), 0, 540, 0, 255));
-      
-      Serial.println("Moving Diagonal Right-Forwards");
+      speed = map(sqrt(pow(get_joy_RX(),2)+pow(get_joy_RY(),2)), 0, 540, 0, 255);
+      MecFRight(speed);
+
+      if(SystemDebug==2)
+      {
+        Serial.print("Moving Diagonal Right-Foward by "); Serial.println(speed);
+      }
     }
 
     //Diagonal Left-Back
     else if((get_joy_RX() < -60) && (get_joy_RY() < -60)){
-    MecBLeft(map(sqrt(pow(get_joy_RX(),2)+pow(get_joy_RY(),2)), 0, 524, 0, 255));
-    
-      Serial.println("Moving Diagonal Left-Right");
+      speed = map(sqrt(pow(get_joy_RX(),2)+pow(get_joy_RY(),2)), 0, 524, 0, 255);
+      MecBLeft(speed);
+
+      if(SystemDebug==2)
+      {
+        Serial.print("Moving Diagonal Left-Back by "); Serial.println(speed);
+      }
     }
 
     //Diagonal Right-Back
     else if((get_joy_RX() > 60) && (get_joy_RY() < -60)){
-     MecBRight(map(sqrt(pow(get_joy_RX(),2)+pow(get_joy_RY(),2)), 0, 570, 0, 255));
-     
-      Serial.println("Moving Diagonal Right-Back");
+      speed = map(sqrt(pow(get_joy_RX(),2)+pow(get_joy_RY(),2)), 0, 570, 0, 255);
+      MecBRight(speed);
+
+      if(SystemDebug==2)
+      {
+        Serial.print("Moving Diagonal Right-Back by "); Serial.println(speed);
+      }
     }
-    
+
     else{
       MecStop();
 
       Serial.println("Stopped");
     }
 
-    if(SystemDebug = 1){
+    if(SystemDebug == 1){
       Serial.print("RightX=");
       Serial.print(get_joy_RX());
-  
-      Serial.print(" RightY=");
+
+      Serial.print(" \tRightY=");
       Serial.print(get_joy_RY());
-  
-      Serial.print(" LeftX=");  
+
+      Serial.print(" \tLeftX=");
       Serial.print(get_joy_LX());
-  
-      Serial.print(" LeftY=");  
+
+      Serial.print(" \tLeftY=");
       Serial.print(get_joy_LY());
 
-      Serial.print(" AnalogX=");  
+      Serial.print(" \tLButton=");
+      Serial.print(get_joy_LNip());
+
+      Serial.print(" \tRButton=");
       Serial.print(get_joy_RNip());
 
-      Serial.print(" AnalogY=");  
-      Serial.println(get_joy_LY());
+      Serial.print(" RB1 down:");
+      Serial.println(get_RB1_press());
       }
     }
-  
+
 //}
 
-//uses the motion sensors in order to detect any objects that might be in front or around the bot. Stops if too close to them. 
+//uses the motion sensors in order to detect any objects that might be in front or around the bot. Stops if too close to them.
 void ManualDriveCollisionAvoidance(){
 
    if(!rc_isOn())
@@ -168,91 +203,99 @@ void ManualDriveCollisionAvoidance(){
     soundPlaying=false;
     SoundControllerConnected();
    }
-   
+
    else
    {
 
     //Movement Right
     if(((get_joy_RX() > 10) && ((get_joy_RY() < 10) && (get_joy_RY() > -10))) && (ProximityArray[4] > 1)){
-      
+
       MecRight(map(get_joy_RX(), 10, 420, 0, 255));
 
       Serial.println("Moving Right");
     }
-    //Movement Left  
+    //Movement Left
     else if(((get_joy_RX() < -10) && ((get_joy_RY() < 10) && (get_joy_RY() > -10))) && (ProximityArray[3] > 1)){
       MecLeft(map(get_joy_RX(), -10, -370, 0, 255));
 
      Serial.println("Moving Left");
     }
-    
-    //Movement Forwards  
+
+    //Movement Forwards
     else if(((get_joy_RY() > 10) && ((get_joy_RX() < 10) && (get_joy_RX() > -10))) && ( ProximityArray[1] > 1||ProximityArray[0] > 1)){
       MecForwards(map(get_joy_RY(), 10, 320, 0, 255));
 
       Serial.println("MovingForwards");
     }
-    
-    //Movement Backwards  
+
+    //Movement Backwards
     else if(((get_joy_RY() < -10) && ((get_joy_RX() < 10) && (get_joy_RX() > -10))) && (ProximityArray[2] > 1)){
       MecBackwards(map(get_joy_RY(), -10, -350, 0, 255));
-      
+
       Serial.println("Moving Backwards");
     }
 
-    //All of these ones need to have some sort of weird code to have them stop lol 
+    //All of these ones need to have some sort of weird code to have them stop lol
     //Diagonal Left-Fowards
     else if((get_joy_RX() < -60) && (get_joy_RY() > 60)){
       MecFLeft(map(sqrt(pow(get_joy_RX(),2)+pow(get_joy_RY(),2)), 0, 497, 0, 255));
-      
+
       Serial.println("Moving Diagonal Left-Forwards");
     }
 
     //Diagonal Right-Forwards
     else if((get_joy_RX() > 60) && (get_joy_RY() > 60)){
       MecFRight(map(sqrt(pow(get_joy_RX(),2)+pow(get_joy_RY(),2)), 0, 540, 0, 255));
-      
+
       Serial.println("Moving Diagonal Right-Forwards");
     }
 
     //Diagonal Left-Back
     else if((get_joy_RX() < -60) && (get_joy_RY() < -60)){
     MecBLeft(map(sqrt(pow(get_joy_RX(),2)+pow(get_joy_RY(),2)), 0, 524, 0, 255));
-    
+
       Serial.println("Moving Diagonal Left-Right");
     }
 
     //Diagonal Right-Back
     else if((get_joy_RX() > 60) && (get_joy_RY() < -60)){
      MecBRight(map(sqrt(pow(get_joy_RX(),2)+pow(get_joy_RY(),2)), 0, 570, 0, 255));
-     
+
       Serial.println("Moving Diagonal Right-Back");
     }
-    
+
     else{
       MecStop();
 
       Serial.println("Stopped");
     }
 
-    if(SystemDebug = 1){
+    if(SystemDebug == 2){
       Serial.print("RightX=");
       Serial.print(get_joy_RX());
-  
+
       Serial.print(" RightY=");
       Serial.print(get_joy_RY());
-  
-      Serial.print(" LeftX=");  
+
+      Serial.print(" LeftX=");
       Serial.print(get_joy_LX());
-  
-      Serial.print(" LeftY=");  
+
+      Serial.print(" LeftY=");
       Serial.print(get_joy_LY());
 
-      Serial.print(" AnalogX=");  
+      Serial.print(" RightButton=");
       Serial.print(get_joy_RNip());
 
-      Serial.print(" AnalogY=");  
-      Serial.println(get_joy_LY());
+      Serial.print(" RightButton=");
+      Serial.println(get_joy_LNip());
+
+      Serial.print("RB1 down:");
+      Serial.println(get_RB1_press());
+      }
+      if(SystemDebug==2)
+      {
+        Serial.print("RB1 down:");
+        Serial.println(get_RB1_press());
       }
     }
 }
