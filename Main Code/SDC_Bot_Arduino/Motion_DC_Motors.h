@@ -16,11 +16,11 @@
 #define MDir2 24
 
 //Motor 3 (Speed and Direction)
-#define MSpeed3 9
+#define MSpeed3 8    // before was 9 here
 #define MDir3 26
 
 //Motor 4 (Speed and Direction)
-#define MSpeed4 10
+#define MSpeed4 9   // before was 10 here
 #define MDir4 28
 
 //Easy initialization which can be called from other parts of the code.
