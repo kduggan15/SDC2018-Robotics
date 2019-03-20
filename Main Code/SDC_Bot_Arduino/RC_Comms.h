@@ -77,7 +77,7 @@ int get_joy_LX()
 {
   int value;
   rc_read_values();
-  value = rc_values[RC_CH3];
+  value = rc_values[RC_CH4]; /// JORGE: ORIGINALLY RC_CH3 WAS HERE THIS FIXED SERIAL MONITOR OUTPUT
   return value-1500;
 }
 
@@ -85,7 +85,7 @@ int get_joy_LY()
 {
   int value;
   rc_read_values();
-  value = rc_values[RC_CH4];
+  value = rc_values[RC_CH3]; // JORGE: ORIGINALLY RC_CH4 HERE THIS FIXED SERIAL MONITOR OUTPUT
   return value-1500;
 }
 
