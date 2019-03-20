@@ -23,8 +23,6 @@ void setup() {
   BodyMotionSetup();
   MotionSetup();
   StepperSetup(100,16);
-  StepperSetup(100,16);
-  PiezoAlarmSetup();
   RC_CommsSetup();
   IMU_setup();
 
