@@ -49,6 +49,14 @@ void StopAll(){
    }
  }
 
+void autoForward(){
+  for(int i=0; i<220; i++)
+  {
+    MecForwards(i);
+    delay(i>>3);
+  }
+}
+
 //Piece of code used to move the bot with the controller, previously located in the main file.
 void MovementController(){
   int speed;
@@ -70,12 +78,17 @@ void MovementController(){
    else
    {
 */
+    if(get_RB1_press()==1)
+    {
+      Serial.println("AutoForward");
+      autoForward();
+    }
     //Movement Right
-    if((get_joy_RX() > 10) && ((get_joy_RY() < 10) && (get_joy_RY() > -10))){
+    else if((get_joy_RX() > 10) && ((get_joy_RY() < 10) && (get_joy_RY() > -10))){
       speed = map(get_joy_RX(), 10, 420, 0, 255);
       //Here we move clockwise as a hack to make the robot straif. There's some pin mixup somewhere, but this makes it works.
       //The original command here was MecRight(speed)
-      MecCW(speed);
+      MecRight(speed);
       if(SystemDebug==2)
       {
         Serial.print("Moving Right by "); Serial.println(speed);
@@ -86,7 +99,7 @@ void MovementController(){
       speed = map(get_joy_RX(), -10, -370, 0, 255);
       //Here we move counter-clockwise as a hack to make the robot straif. There's some pin mixup somewhere, but this makes it works.
       //The original command here was MecLeft(speed)
-      MecCCW(speed);
+      MecLeft(speed);
 
       if(SystemDebug==2)
       {
@@ -164,7 +177,7 @@ void MovementController(){
       speed = map(get_joy_LX(), 10, 420, 0, 255);
       //Here we move right as a hack to make the robot rotate. There's some pin mixup somewhere, but this makes it works.
       //The original command here was MecCW(speed)
-      MecRight(speed);
+      MecCW(speed);
       if(SystemDebug==2)
       {
         Serial.print("Moving Clockwise by "); Serial.println(speed);
@@ -175,7 +188,7 @@ void MovementController(){
       speed = map(get_joy_LX(), -10, -420, 0, 255);
       //Here we move left as a hack to make the robot rotate. There's some pin mixup somewhere, but this makes it works.
       //The original command here was MecCCW(speed)
-      MecLeft(speed);
+      MecCCW(speed);
       if(SystemDebug==2)
       {
         Serial.print("Moving Counter-Clockwise by "); Serial.println(speed);
