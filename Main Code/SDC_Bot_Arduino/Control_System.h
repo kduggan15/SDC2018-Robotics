@@ -73,7 +73,9 @@ void MovementController(){
     //Movement Right
     if((get_joy_RX() > 10) && ((get_joy_RY() < 10) && (get_joy_RY() > -10))){
       speed = map(get_joy_RX(), 10, 420, 0, 255);
-      MecRight(speed);
+      //Here we move clockwise as a hack to make the robot straif. There's some pin mixup somewhere, but this makes it works.
+      //The original command here was MecRight(speed)
+      MecCW(speed);
       if(SystemDebug==2)
       {
         Serial.print("Moving Right by "); Serial.println(speed);
@@ -82,7 +84,9 @@ void MovementController(){
     //Movement Left
     else if((get_joy_RX() < -10) && ((get_joy_RY() < 10) && (get_joy_RY() > -10))){
       speed = map(get_joy_RX(), -10, -370, 0, 255);
-      MecLeft(speed);
+      //Here we move counter-clockwise as a hack to make the robot straif. There's some pin mixup somewhere, but this makes it works.
+      //The original command here was MecLeft(speed)
+      MecCCW(speed);
 
       if(SystemDebug==2)
       {
