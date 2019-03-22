@@ -159,7 +159,28 @@ void MovementController(){
         Serial.print("Moving Diagonal Right-Back by "); Serial.println(speed);
       }
     }
-
+    //Rotate Clockwise
+    else if(get_joy_LX()>10){
+      speed = map(get_joy_LX(), 10, 420, 0, 255);
+      //Here we move right as a hack to make the robot rotate. There's some pin mixup somewhere, but this makes it works.
+      //The original command here was MecCW(speed)
+      MecRight(speed);
+      if(SystemDebug==2)
+      {
+        Serial.print("Moving Clockwise by "); Serial.println(speed);
+      }
+    }
+    //Rotate Counter-Clockwise
+    else if(get_joy_LX()<-10){
+      speed = map(get_joy_LX(), -10, -420, 0, 255);
+      //Here we move left as a hack to make the robot rotate. There's some pin mixup somewhere, but this makes it works.
+      //The original command here was MecCCW(speed)
+      MecLeft(speed);
+      if(SystemDebug==2)
+      {
+        Serial.print("Moving Counter-Clockwise by "); Serial.println(speed);
+      }
+    }
     else{
       MecStop();
 
