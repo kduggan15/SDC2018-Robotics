@@ -6,7 +6,7 @@
  * Both pins are PWM enabled pins
  */
 
-#define ServoPinLeft
+#define ServoPinLeft 
 #define ServoPinRight 
 
 int OpenPosition = 0;
