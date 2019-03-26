@@ -18,6 +18,7 @@ int SystemDebug = 2;
 #include "RC_Comms.h"                 //Recieves and processes information from the RC controller
 #include "PowerManagement.h"          //Deals with power management and battery voltages
 #include "Control_System.h"           //All the code related to connecting all previous code together, call functions from this boy on the loop
+#include "GateMovement.h"             //All code related to opening and closing of servo gates
 
 void setup() {
   //Setups for all pieces of code that need setups.
@@ -26,7 +27,7 @@ void setup() {
   StepperSetup(100,16);
   RC_CommsSetup();
   IMU_setup();
-
+  ServoSetup();
   Serial.begin(9600);                 // Serial Communication for all modules that require it for debugging
 }
 

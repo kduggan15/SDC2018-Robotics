@@ -1,6 +1,3 @@
-int SystemDebug = 1; 
-
-
 /*This is the code that is used for the two servos that open and close the gates.
  * 
  * Pinout:
@@ -13,7 +10,7 @@ int SystemDebug = 1;
   * In order for servos to move to a specific position, you need to send it an pwm value that will send it it's positon. 
   * Our problem is the following, the two servo motors are placed in opposite directions, as one moves clockwise, the other will move counterclockwise. 
   * The problem here is that servos consider their 0 degrees position is relative to the clockwise direction, the higher you in degrees, the more you move clockwise. 
-  * Why is this a problem? because one of the motors is opposite, instead of for instance, going to 30 degrees as commanded, it will be basically going to 150 degrees. 
+  * Why is this a problem? because one of the motors is opposite, instead of for instance, going to 30 degrees as commanded, it will be basically be going to 150 degrees. 
   * To correct this, we inverse the values being sent to one of the motors, so instead of sending it 30, we send it 150, which will turn the motor to the 30 position lol
   * that is what the function does. 
   */
@@ -83,6 +80,7 @@ the gate.
 This would be kind of hard to do manually with the controller, so just changing the function value in the code and reflashing 
 should be fine. ;-)
 */
+
 void ServoCalibration(int TestAngleServo){
 
   ServoLeft.write(TestAngleServo);                        //Sends position information to left servo
@@ -92,19 +90,19 @@ void ServoCalibration(int TestAngleServo){
   Serial.print("Gate Test Position: ");
   Serial.print(TestAngleServo);         //Position Printing
   Serial.println(" Degrees");
-  
 
 }
 
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
-  ServoSetup(); //setup for the servos and shit
-  
-}
-
-void loop() {
- //Tests wether the door can open and close 
- GateOpen(); 
- GateClose();
-}
+/*
+ * Top 10 people angel loves:
+ * kieran
+ * jorge
+ * andy
+ * brian
+ * johnny
+ * jade
+ * umut
+ * brandon
+ * balbina
+ * thanos with waves and airpods
+ */
