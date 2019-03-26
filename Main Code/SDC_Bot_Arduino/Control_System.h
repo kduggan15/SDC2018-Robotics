@@ -50,7 +50,7 @@ void StopAll(){
  }
 
 void autoForward(){
-  for(int i=0; i<220; i++)
+  for(int i=80; i<240; i++)
   {
     MecForwards(i);
     delay(i>>3);
