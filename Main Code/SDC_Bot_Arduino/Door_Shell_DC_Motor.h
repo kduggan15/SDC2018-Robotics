@@ -40,7 +40,7 @@ void BodyMotionSetup(){
 
 //Shell Retraction function.
 void ShellRetract(){
-  digitalWrite(MShellDir, LOW);
+  digitalWrite(MShellDir, HIGH);
 
   while(digitalRead(ShellEndRetracted) != 1){
     analogWrite(MShellSpeed, ShellMotorCSpeed);
@@ -50,7 +50,7 @@ void ShellRetract(){
 
 //Shell extension function.
 void ShellExtend(){
-  digitalWrite(MShellDir, HIGH);
+  digitalWrite(MShellDir, LOW);
 
   while(digitalRead(ShellEndExtended) != 1){
     analogWrite(MShellSpeed, ShellMotorCSpeed);

@@ -83,6 +83,24 @@ void MovementController(){
       Serial.println("AutoForward");
       autoForward();
     }
+    else if(get_LB1_press()==1)
+    {
+      Serial.println("Open Shell");
+      if(digitalRead(ShellEndExtended) == 1)
+      {
+        ShellRetract();
+      }
+      ShellExtend();
+    }
+    else if(get_LB2_press() == 1)
+    {
+      Serial.println("Open Door");
+      if(digitalRead(DoorEndRaised) == 1)
+      {
+        DoorLower();
+      }
+      DoorRaise();
+    }
     //Movement Right
     else if((get_joy_RX() > 10) && ((get_joy_RY() < 10) && (get_joy_RY() > -10))){
       speed = map(get_joy_RX(), 10, 420, 0, 255);

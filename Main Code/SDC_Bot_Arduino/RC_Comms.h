@@ -106,12 +106,71 @@ int get_joy_LNip()
 }
 #define BUTTON_TOL 8
 #define RB1 1552
+#define RB2 1572
+#define RB3 1652
+#define RB4 1928
+#define RB5 1784
+
+#define LB1 1548
+#define LB2 1572
+#define LB3 1652
+#define LB4 2000//Lemon
+#define LB5 1924
 boolean get_RB1_press()
 {
   int value;
   rc_read_values();
   value = rc_values[RC_CH5];
   return (value>RB1-BUTTON_TOL && value < RB1+BUTTON_TOL);
+}
+boolean get_RB2_press()
+{
+  int value;
+  rc_read_values();
+  value = rc_values[RC_CH5];
+  return (value>RB2-BUTTON_TOL && value < RB2+BUTTON_TOL);
+}
+boolean get_RB3_press()
+{
+  int value;
+  rc_read_values();
+  value = rc_values[RC_CH5];
+  return (value>RB3-BUTTON_TOL && value < RB3+BUTTON_TOL);
+}
+boolean get_RB4_press()
+{
+  int value;
+  rc_read_values();
+  value = rc_values[RC_CH5];
+  return (value>RB4-BUTTON_TOL && value < RB4+BUTTON_TOL);
+}
+boolean get_RB5_press()
+{
+  int value;
+  rc_read_values();
+  value = rc_values[RC_CH5];
+  return (value>RB5-BUTTON_TOL && value < RB5+BUTTON_TOL);
+}
+boolean get_LB1_press()
+{
+  int value;
+  rc_read_values();
+  value = rc_values[RC_CH6];
+  return (value>LB1-BUTTON_TOL && value < LB1+BUTTON_TOL);
+}
+boolean get_LB2_press()
+{
+  int value;
+  rc_read_values();
+  value = rc_values[RC_CH6];
+  return (value>LB2-BUTTON_TOL && value < LB2+BUTTON_TOL);
+}
+boolean get_LB3_press()
+{
+  int value;
+  rc_read_values();
+  value = rc_values[RC_CH6];
+  return (value>LB3-BUTTON_TOL && value < LB3+BUTTON_TOL);
 }
 
 boolean rc_isOn()
