@@ -2,11 +2,11 @@
 #define DOOR_SHELL_DC_MOTOR_H
 
 /*
-Code for extending and retracting the shell of the bot, as well as for raising and lowering the back door. 
-This code uses 2 dc motors connected to one motor driver and 4 endstops connected directly to the Arduino Mega using pullups to pull signals to 5V. 
+Code for extending and retracting the shell of the bot, as well as for raising and lowering the back door.
+This code uses 2 dc motors connected to one motor driver and 4 endstops connected directly to the Arduino Mega using pullups to pull signals to 5V.
 */
 
-//Pins used for motors and endstops related to the shell movement. 
+//Pins used for motors and endstops related to the shell movement.
 #define MShellSpeed 10           //Pin for speed of shell motor (pwm).
 #define MShellDir 30             //Pin for direction of shell motor.
 #define ShellEndRetracted 23     //Pin for endstops for the retracted position.
@@ -15,8 +15,8 @@ This code uses 2 dc motors connected to one motor driver and 4 endstops connecte
 //Pins used for motors and endstops related to the door movement.
 #define MDoorSpeed 11            //Pin for speed of the door motor (pwm).
 #define MDoorDir 32              //Pin for direction of the door motor.
-#define DoorEndRaised 27         //Pin for endstop for the raised position of door.
-#define DoorEndLowered 29        //Pin for endstop for the lowered positon of door.
+#define DoorEndRaised 31         //Pin for endstop for the raised position of door.
+#define DoorEndLowered 33        //Pin for endstop for the lowered positon of door.
 
 //Constant speed variables for the shell and door motors (0-255).
 const int ShellMotorCSpeed = 100;
