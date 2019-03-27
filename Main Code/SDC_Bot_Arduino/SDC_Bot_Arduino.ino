@@ -34,13 +34,12 @@ void setup() {
 void loop() {
 
   //BatteryCheck(); //Battery level check, does not allow any of the systems to run if battery is far too low
-
+  GateClose();
+  //GateOpen();
   //Anything that needs to run if battery is not too low goes here
   if(LowVoltageFlag == 0){
     MovementController();
     //DistanceGather();
     //ManualDriveCollisionAvoidance();
   }
-
-
 }

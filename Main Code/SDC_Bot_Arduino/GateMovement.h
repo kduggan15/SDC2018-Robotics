@@ -25,8 +25,8 @@ Servo ServoRight;         //Object initialization for the right servo
 
 //Position values for opening and closing the door, these need to be calibrated before being set. 
 
-const int OpenPosition = 0;     //Value in degrees at which the gate will swing open
-const int ClosedPosition = 0;   //Value in degrees at which the gate will swing closed
+const int OpenPosition = 180;     //Value in degrees at which the gate will swing open
+const int ClosedPosition = 20;   //Value in degrees at which the gate will swing closed
 int GateStatus = 0;             //Flag that stores position of the gate, 0 = No position assigned, 1 = Open, 2 = closed. 
 
 //Setup for the servos, add this to the main setup.
@@ -40,7 +40,7 @@ void ServoSetup(){
 void GateOpen(){
 
   ServoLeft.write(OpenPosition);                        //Sends position information to left servo
-  ServoRight.write(map(OpenPosition, 0, 180, 180, 0));  //Sends posiition information to right servo (Check note 1)
+  ServoRight.write(OpenPosition);  //Sends posiition information to right servo (Check note 1)
   GateStatus = 1; //Gate opened
 
   //Prints the status of the gate and position value if debugging is enabled
@@ -58,7 +58,7 @@ void GateOpen(){
 void GateClose(){
 
   ServoLeft.write(ClosedPosition);                        //Sends position information to left servo
-  ServoRight.write(map(ClosedPosition, 0, 180, 180, 0));  //Sends posiition information to right servo (Check note 1)
+  ServoRight.write(ClosedPosition);  //Sends posiition information to right servo 
   GateStatus = 2; //Gate closed
 
   //Prints the status of the gate and position value if debugging is enabled
@@ -84,7 +84,7 @@ should be fine. ;-)
 void ServoCalibration(int TestAngleServo){
 
   ServoLeft.write(TestAngleServo);                        //Sends position information to left servo
-  ServoRight.write(map(TestAngleServo, 0, 180, 180, 0));  //Sends posiition information to right servo (Check note 1)
+  ServoRight.write(TestAngleServo);
 
   //Prints the value of the test angle position
   Serial.print("Gate Test Position: ");
