@@ -19,7 +19,7 @@ This code uses 2 dc motors connected to one motor driver and 4 endstops connecte
 #define DoorEndLowered 33        //Pin for endstop for the lowered positon of door.
 
 //Constant speed variables for the shell and door motors (0-255).
-const int ShellMotorCSpeed = 100;
+const int ShellMotorCSpeed = 25;
 const int DoorMotorCSpeed = 100;
 
 void BodyMotionSetup(){
@@ -40,9 +40,15 @@ void BodyMotionSetup(){
 
 //Shell Retraction function.
 void ShellRetract(){
+  long unsigned time = millis();
+  long unsigned end_time = time + 10000;
   digitalWrite(MShellDir, HIGH);
 
-  while(digitalRead(ShellEndRetracted) != 1){
+  while(digitalRead(ShellEndRetracted) != 1 && millis()<end_time){
+    if(SystemDebug == 2){
+      Serial.print("Shell retract timout: ");
+      Serial.println(end_time-millis());
+    }
     analogWrite(MShellSpeed, ShellMotorCSpeed);
   }
   analogWrite(MShellSpeed, 0);
@@ -50,9 +56,15 @@ void ShellRetract(){
 
 //Shell extension function.
 void ShellExtend(){
+  long unsigned time = millis();
+  long unsigned end_time = time + 10000;
   digitalWrite(MShellDir, LOW);
 
-  while(digitalRead(ShellEndExtended) != 1){
+  while(digitalRead(ShellEndExtended) != 1 && millis()<end_time){
+    if(SystemDebug == 2){
+      Serial.print("Shell extend timout: ");
+      Serial.println(end_time-millis());
+    }
     analogWrite(MShellSpeed, ShellMotorCSpeed);
   }
   analogWrite(MShellSpeed, 0);
