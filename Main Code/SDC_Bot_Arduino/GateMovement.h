@@ -14,7 +14,8 @@
   * To correct this, we inverse the values being sent to one of the motors, so instead of sending it 30, we send it 150, which will turn the motor to the 30 position lol
   * that is what the function does. 
   */
-  
+#ifndef GATE_MOVEMENT_H
+#define GATE_MOVEMENT_H
 #include <Servo.h> 
 
 #define ServoPinLeft 12   //Pin used for the left servo signal
@@ -44,7 +45,7 @@ void GateOpen(){
   GateStatus = 1; //Gate opened
 
   //Prints the status of the gate and position value if debugging is enabled
-  if(SystemDebug == 1){
+  if(SystemDebug == 3){
     Serial.print("Gate Status:"); //Status printing
     Serial.println("Open");
     
@@ -62,7 +63,7 @@ void GateClose(){
   GateStatus = 2; //Gate closed
 
   //Prints the status of the gate and position value if debugging is enabled
-  if(SystemDebug == 1){
+  if(SystemDebug == 3){
     Serial.print("Gate Status:"); //Status Printing
     Serial.print("Closed");
     
@@ -106,3 +107,4 @@ void ServoCalibration(int TestAngleServo){
  * balbina
  * thanos with waves and airpods
  */
+ #endif /*GATE_MOVEMENT_H*/
