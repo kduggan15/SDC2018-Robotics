@@ -5,6 +5,7 @@
  */
 #define MODE_MOTION
 #define MODE_PICKPLACE
+#include "GateMovement.h"
 boolean soundPlaying;
 
 void StopAll(){
@@ -50,7 +51,14 @@ void StopAll(){
  }
 
 void autoForward(){
-  for(int i=80; i<240; i++)
+  GateOpen();
+  for(int i=80; i<230; i++)
+  {
+    MecForwards(i);
+    delay(i>>3);
+  }
+  GateClose();
+  for (int i=230; i<245; i++)
   {
     MecForwards(i);
     delay(i>>3);
@@ -81,9 +89,7 @@ void MovementController(){
     if(get_RB1_press()==1)
     {
       Serial.println("AutoForward");
-      GateOpen();
       autoForward();
-      GateClose();
 
     }
     else if(get_LB1_press()==1)
