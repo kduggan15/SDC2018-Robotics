@@ -81,7 +81,10 @@ void MovementController(){
     if(get_RB1_press()==1)
     {
       Serial.println("AutoForward");
+      GateOpen();
       autoForward();
+      GateClose();
+
     }
     else if(get_LB1_press()==1)
     {
@@ -129,6 +132,9 @@ void MovementController(){
     else if((get_joy_RY() > 10) && ((get_joy_RX() < 10) && (get_joy_RX() > -10)) ){
       speed = map(get_joy_RY(), 10, 320, 0, 255);
       MecForwards(speed);
+      if(speed>50){
+        GateOpen();
+      }
 
       if(SystemDebug==2)
       {
@@ -139,6 +145,7 @@ void MovementController(){
     //Movement Backwards
     else if((get_joy_RY() < -10) && ((get_joy_RX() < 10) && (get_joy_RX() > -10))){
       speed = map(get_joy_RY(), -10, -350, 0, 255);
+      GateClose();
       MecBackwards(speed);
 
       if(SystemDebug==2)
@@ -173,6 +180,7 @@ void MovementController(){
     else if((get_joy_RX() < -60) && (get_joy_RY() < -60)){
       speed = map(sqrt(pow(get_joy_RX(),2)+pow(get_joy_RY(),2)), 0, 524, 0, 255);
       MecBLeft(speed);
+      GateClose();
 
       if(SystemDebug==2)
       {
@@ -184,6 +192,7 @@ void MovementController(){
     else if((get_joy_RX() > 60) && (get_joy_RY() < -60)){
       speed = map(sqrt(pow(get_joy_RX(),2)+pow(get_joy_RY(),2)), 0, 570, 0, 255);
       MecBRight(speed);
+      GateClose();
 
       if(SystemDebug==2)
       {
@@ -196,6 +205,7 @@ void MovementController(){
       //Here we move right as a hack to make the robot rotate. There's some pin mixup somewhere, but this makes it works.
       //The original command here was MecCW(speed)
       MecCW(speed);
+      GateClose();
       if(SystemDebug==2)
       {
         Serial.print("Moving Clockwise by "); Serial.println(speed);
@@ -207,12 +217,14 @@ void MovementController(){
       //Here we move left as a hack to make the robot rotate. There's some pin mixup somewhere, but this makes it works.
       //The original command here was MecCCW(speed)
       MecCCW(speed);
+      GateClose();
       if(SystemDebug==2)
       {
         Serial.print("Moving Counter-Clockwise by "); Serial.println(speed);
       }
     }
     else{
+      GateClose();
       MecStop();
 
       Serial.println("Stopped");
