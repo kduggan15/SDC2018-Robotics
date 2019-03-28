@@ -47,7 +47,9 @@ void ShellRetract(){
   while(digitalRead(ShellEndRetracted) != 1 && millis()<end_time){
     if(SystemDebug == 2){
       Serial.print("Shell retract timout: ");
-      Serial.println(end_time-millis());
+      Serial.print(end_time-millis());
+      Serial.print("\tShell End Retracted pin: ");
+      Serial.println(ShellEndRetracted);
     }
     analogWrite(MShellSpeed, ShellMotorCSpeed);
   }
@@ -63,7 +65,9 @@ void ShellExtend(){
   while(digitalRead(ShellEndExtended) != 1 && millis()<end_time){
     if(SystemDebug == 2){
       Serial.print("Shell extend timout: ");
-      Serial.println(end_time-millis());
+      Serial.print(end_time-millis());
+      Serial.print("\tShell End Extend pin: ");
+      Serial.println(ShellEndExtended);
     }
     analogWrite(MShellSpeed, ShellMotorCSpeed);
   }
@@ -76,20 +80,36 @@ void ShellExtend(){
 
 //Door raising function.
 void DoorRaise(){
+  long unsigned time = millis();
+  long unsigned end_time = time + 5000;
   digitalWrite(MDoorDir, LOW);
 
-  while(digitalRead(DoorEndRaised) != 1){
+  while(digitalRead(DoorEndRaised) != 1 && millis()<end_time){
     analogWrite(MDoorSpeed, DoorMotorCSpeed);
+    if(SystemDebug == 2){
+      Serial.print("Door raised timout: ");
+      Serial.print(end_time-millis());
+      Serial.print("\tDoor End Raised pin: ");
+      Serial.println(DoorEndRaised);
+    }
   }
   analogWrite(MDoorSpeed, 0);
 }
 
 //Door lowering function.
 void DoorLower(){
+  long unsigned time = millis();
+  long unsigned end_time = time + 5000;
   digitalWrite(MDoorDir, HIGH);
 
-  while(digitalRead(DoorEndLowered) != 1){
+  while(digitalRead(DoorEndLowered) != 1 && millis()<end_time){
     analogWrite(MDoorSpeed, DoorMotorCSpeed);
+    if(SystemDebug == 2){
+      Serial.print("Door lowered timout: ");
+      Serial.print(end_time-millis());
+      Serial.print("\tDoor End Lowered pin: ");
+      Serial.println(DoorEndLowered);
+    }
   }
   analogWrite(MDoorSpeed, 0);
 }
