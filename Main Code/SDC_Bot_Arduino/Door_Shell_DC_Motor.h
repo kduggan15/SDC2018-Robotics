@@ -19,7 +19,7 @@ This code uses 2 dc motors connected to one motor driver and 4 endstops connecte
 #define DoorEndLowered 33        //Pin for endstop for the lowered positon of door.
 
 //Constant speed variables for the shell and door motors (0-255).
-const int ShellMotorCSpeed = 25;
+const int ShellMotorCSpeed = 100;
 const int DoorMotorCSpeed = 100;
 
 void BodyMotionSetup(){
