@@ -52,13 +52,13 @@ void StopAll(){
 
 void autoForward(){
   GateOpen();
-  for(int i=80; i<230; i++)
+  for(int i=80; i<230; i++)//80-230-245
   {
     MecForwards(i);
     delay(i>>3);
   }
   GateClose();
-  for (int i=230; i<245; i++)
+  for (int i=230; i<240; i++)
   {
     MecForwards(i);
     delay(i>>3);
@@ -86,29 +86,37 @@ void MovementController(){
    else
    {
 */
-    if(get_RB1_press()==1)
+    if(get_LB1_press()==1)
     {
       Serial.println("AutoForward");
       autoForward();
 
     }
-    else if(get_LB1_press()==1)
+    else if(get_RB1_press()==1)
     {
       Serial.println("Open Shell");
-      if(digitalRead(ShellEndExtended) == 1)
-      {
-        ShellRetract();
-      }
       ShellExtend();
     }
-    else if(get_LB2_press() == 1)
+    else if(get_RB2_press() == 1)
+    {
+      Serial.println("Close Shell");
+      ShellRetract();
+    }
+    else if(get_RB3_press() == 1)
     {
       Serial.println("Open Door");
-      if(digitalRead(DoorEndRaised) == 1)
-      {
-        DoorLower();
-      }
       DoorRaise();
+    }
+    else if(get_RB4_press() == 1)
+    {
+      Serial.println("Close Door");
+      DoorLower();
+    }
+    else if(0){
+      int x,y;
+      x = map(get_joy_RX(), -370, 420, -250, 250);
+      y = map(get_joy_RY(), -350, 320, -250, 250);
+      InputToOutput(x, y);
     }
     //Movement Right
     else if((get_joy_RX() > 10) && ((get_joy_RY() < 10) && (get_joy_RY() > -10))){
