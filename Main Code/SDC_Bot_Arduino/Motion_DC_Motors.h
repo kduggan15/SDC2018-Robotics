@@ -197,6 +197,22 @@ void MecBRight(int speed){
 
 }
 
+//Emergency or regular stop function for the moving mechanism
+void MecStop(){
+
+//Speeds
+  digitalWrite(MDir1, LOW);
+  digitalWrite(MDir2, LOW);
+  digitalWrite(MDir3, LOW);
+  digitalWrite(MDir4, LOW);
+//Directions
+  analogWrite(MSpeed1, 0);
+  analogWrite(MSpeed2, 0);
+  analogWrite(MSpeed3, 0);
+  analogWrite(MSpeed4, 0);
+
+}
+
 //Speeds need to be assigned as numbers between 0-255.
 // HIGH = Forwards, LOW = Backwards
 // Anywhere where Speed = 0, means that the motor is turned off.
@@ -218,31 +234,45 @@ void MotorCommand(int wFR,int wFL, int wBL, int wBR, bool wFRDir, bool wFLDir, b
 //take controller inputs and convert to motor speeds
 void InputToOutput(int x, int y){
   int wFR; int wFL; int wBL; int wBR;
-  int wFRDir, wFLDir, wBRDir, wBLDir;
-  if (1){
-    float a = atan2(y,-x);
-    a = a*-1;
-    a+=PI;
-    float m = sqrt(sq(x)+sq(y));
+  bool wFRDir, wFLDir, wBRDir, wBLDir;
+  float m = sqrt(sq(x)+sq(y));
+  if (m > 10){
+    float a = atan2(y,x);
+    //if (x<0){a = a + PI;}
+    //if (x>=0 && y<0) {a = a + 2*PI;}
+    if (y<0) {a = a + 2*PI;}
+
     if(0<=a && a<PI/2){
+       if(SystemDebug == 4){
+          Serial.print("Quadrant 1");
+       }
       wFR = m*-cos(2*a);
       wFL = m;
       wBR = m;
       wBL = wFR;
     }
     else if (PI/2<=a && a<PI){
+      if(SystemDebug == 4){
+          Serial.print("Quadrant 2");
+       }
       wFR = m;
       wFL = m*-cos(2*a);
       wBR = wFL;
       wBL = m;
     }
-    else if (PI<=a && a<3*PI/4){
+    else if (PI<=a && a<3*PI/2){
+      if(SystemDebug == 4){
+          Serial.print("Quadrant 3");
+      }
       wFR = m*cos(2*a);
       wFL = -m;
       wBR = -m;
       wBL = wFR;
     }
-    else if (3*PI/4<=a && a<=2*PI){
+    else if (3*PI/2<=a && a<=2*PI){
+      if(SystemDebug == 4){
+          Serial.print("Quadrant 4");
+      }
       wFR = -m;
       wFL = m*cos(2*a);
       wBR = wFL;
@@ -253,29 +283,29 @@ void InputToOutput(int x, int y){
     }
     else {
       wFRDir = LOW;
-      wFR = abs(wFR);
+      //wFR = abs(wFR);
     }
     if (wFL > 0){
       wFLDir = HIGH;
     }
     else {
       wFLDir = LOW;
-      wFL = abs(wFL);
+      //wFL = abs(wFL);
     }
     if (wBR > 0){
       wBRDir = HIGH;
     }
     else {
       wBRDir = LOW;
-      wBR = abs(wBR);
+      //wBR = abs(wBR);
     }
     if (wBL > 0){
       wBLDir = HIGH;
     }
     else {
       wBLDir = LOW;
-      wBL = abs(wBL);
-    }    
+      //wBL = abs(wBL);
+    }
     if(SystemDebug == 4){
       Serial.print("\nx: "); Serial.print(x);
       Serial.print("\ty: "); Serial.print(y);
@@ -290,22 +320,9 @@ void InputToOutput(int x, int y){
       Serial.print("\twBLDir: "); Serial.print(wBLDir);
       Serial.print("\twBRDir: "); Serial.println(wBRDir);
     }
-    MotorCommand(wFR,wFL, wBL, wBR, wFRDir, wFLDir, wBRDir, wBLDir);
+    MotorCommand(abs(wFR),abs(wFL), abs(wBL), abs(wBR), wFRDir, wFLDir, wBRDir, wBLDir);
   }
-}
-
-//Emergency or regular stop function for the moving mechanism
-void MecStop(){
-
-//Speeds
-  digitalWrite(MDir1, LOW);
-  digitalWrite(MDir2, LOW);
-  digitalWrite(MDir3, LOW);
-  digitalWrite(MDir4, LOW);
-//Directions
-  analogWrite(MSpeed1, 0);
-  analogWrite(MSpeed2, 0);
-  analogWrite(MSpeed3, 0);
-  analogWrite(MSpeed4, 0);
-
+  else {
+    MecStop();
+  }
 }
