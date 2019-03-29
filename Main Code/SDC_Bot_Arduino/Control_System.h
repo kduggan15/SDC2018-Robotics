@@ -136,10 +136,10 @@ void MovementController(){
         Serial.print("Moving Counter-Clockwise by "); Serial.println(speed);
       }
     }
-    else if(vectorMode){
+    else if(vectorMode && abs(get_joy_RX())+abs(get_joy_RY()) >15){
       int x,y;
-      x = map(get_joy_RX(), -370, 420, -250, 250);
-      y = map(get_joy_RY(), -350, 320, -250, 250);
+      x = map(get_joy_RX(), -370, 420, -200, 200);
+      y = map(get_joy_RY(), -350, 320, -200, 200);
       InputToOutput(x, y);
     }
     //Movement Right
