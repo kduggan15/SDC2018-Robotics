@@ -172,6 +172,13 @@ boolean get_LB3_press()
   value = rc_values[RC_CH6];
   return (value>LB3-BUTTON_TOL && value < LB3+BUTTON_TOL);
 }
+boolean get_LB5_press()
+{
+  int value;
+  rc_read_values();
+  value = rc_values[RC_CH6];
+  return (value>LB3-BUTTON_TOL && value < LB3+BUTTON_TOL);
+}
 
 boolean rc_isOn()
 {
