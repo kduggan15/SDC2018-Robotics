@@ -41,7 +41,7 @@ void BodyMotionSetup(){
 //Shell Retraction function.
 void ShellRetract(){
   long unsigned time = millis();
-  long unsigned end_time = time + 10000;
+  long unsigned end_time = time + 3000;
   digitalWrite(MShellDir, HIGH);
 
   while(digitalRead(ShellEndRetracted) != 1 && millis()<end_time){
@@ -59,7 +59,7 @@ void ShellRetract(){
 //Shell extension function.
 void ShellExtend(){
   long unsigned time = millis();
-  long unsigned end_time = time + 10000;
+  long unsigned end_time = time + 3000;
   digitalWrite(MShellDir, LOW);
 
   while(digitalRead(ShellEndExtended) != 1 && millis()<end_time){
