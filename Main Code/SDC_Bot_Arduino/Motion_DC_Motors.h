@@ -219,6 +219,10 @@ void MecStop(){
 
 //motor commands
 void MotorCommand(int wFR,int wFL, int wBL, int wBR, bool wFRDir, bool wFLDir, bool wBRDir, bool wBLDir){
+  if(wFR>250) wFR=250;
+  if(wFL>250) wFL=250;
+  if(wBL>250) wBL=250;
+  if(wBR>250) wBR=250;
 //Speeds
   digitalWrite(MDir1, wFLDir);
   digitalWrite(MDir2, wFRDir);
@@ -232,11 +236,11 @@ void MotorCommand(int wFR,int wFL, int wBL, int wBR, bool wFRDir, bool wFLDir, b
 }
 
 //take controller inputs and convert to motor speeds
-void InputToOutput(int x, int y){
+void InputToOutput(long int x, long int y){
   int wFR; int wFL; int wBL; int wBR;
   bool wFRDir, wFLDir, wBRDir, wBLDir;
   float m = sqrt(sq(x)+sq(y));
-  if (m > 10){
+  if (1){
     float a = atan2(y,x);
     //if (x<0){a = a + PI;}
     //if (x>=0 && y<0) {a = a + 2*PI;}
