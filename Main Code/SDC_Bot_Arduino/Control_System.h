@@ -7,7 +7,7 @@
 #define MODE_PICKPLACE
 #include "GateMovement.h"
 boolean soundPlaying;
-
+boolean vectorMode=1;
 void StopAll(){
 
   MecStop(); //Stops DC Motors for mecanum wheels
@@ -112,7 +112,31 @@ void MovementController(){
       Serial.println("Close Door");
       DoorLower();
     }
-    else if(0){
+    //Rotate Clockwise
+    else if(get_joy_LX()>10){
+      speed = map(get_joy_LX(), 10, 420, 0, 255);
+      //Here we move right as a hack to make the robot rotate. There's some pin mixup somewhere, but this makes it works.
+      //The original command here was MecCW(speed)
+      MecCW(speed);
+      GateClose();
+      if(SystemDebug==2)
+      {
+        Serial.print("Moving Clockwise by "); Serial.println(speed);
+      }
+    }
+    //Rotate Counter-Clockwise
+    else if(get_joy_LX()<-10){
+      speed = map(get_joy_LX(), -10, -420, 0, 255);
+      //Here we move left as a hack to make the robot rotate. There's some pin mixup somewhere, but this makes it works.
+      //The original command here was MecCCW(speed)
+      MecCCW(speed);
+      GateClose();
+      if(SystemDebug==2)
+      {
+        Serial.print("Moving Counter-Clockwise by "); Serial.println(speed);
+      }
+    }
+    else if(vectorMode){
       int x,y;
       x = map(get_joy_RX(), -370, 420, -250, 250);
       y = map(get_joy_RY(), -350, 320, -250, 250);
@@ -211,30 +235,6 @@ void MovementController(){
       if(SystemDebug==2)
       {
         Serial.print("Moving Diagonal Right-Back by "); Serial.println(speed);
-      }
-    }
-    //Rotate Clockwise
-    else if(get_joy_LX()>10){
-      speed = map(get_joy_LX(), 10, 420, 0, 255);
-      //Here we move right as a hack to make the robot rotate. There's some pin mixup somewhere, but this makes it works.
-      //The original command here was MecCW(speed)
-      MecCW(speed);
-      GateClose();
-      if(SystemDebug==2)
-      {
-        Serial.print("Moving Clockwise by "); Serial.println(speed);
-      }
-    }
-    //Rotate Counter-Clockwise
-    else if(get_joy_LX()<-10){
-      speed = map(get_joy_LX(), -10, -420, 0, 255);
-      //Here we move left as a hack to make the robot rotate. There's some pin mixup somewhere, but this makes it works.
-      //The original command here was MecCCW(speed)
-      MecCCW(speed);
-      GateClose();
-      if(SystemDebug==2)
-      {
-        Serial.print("Moving Counter-Clockwise by "); Serial.println(speed);
       }
     }
     else{
