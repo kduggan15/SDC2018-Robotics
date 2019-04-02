@@ -19,7 +19,7 @@ This code uses 2 dc motors connected to one motor driver and 4 endstops connecte
 #define DoorEndLowered 33        //Pin for endstop for the lowered positon of door.
 
 //Constant speed variables for the shell and door motors (0-255).
-const int ShellMotorCSpeed = 100;
+const int ShellMotorCSpeed = 50;
 const int DoorMotorCSpeed = 100;
 
 void BodyMotionSetup(){
@@ -41,17 +41,17 @@ void BodyMotionSetup(){
 //Shell Retraction function.
 void ShellRetract(){
   long unsigned time = millis();
-  long unsigned end_time = time + 3000;
-  digitalWrite(MShellDir, HIGH);
+  long unsigned end_time = time + 100;
+  digitalWrite(MShellDir, LOW);
 
-  while(digitalRead(ShellEndRetracted) != 1 && millis()<end_time){
+  while(/*digitalRead(ShellEndRetracted) != 1 && */millis()<end_time){
+    analogWrite(MShellSpeed, ShellMotorCSpeed);
     if(SystemDebug == 2){
       Serial.print("Shell retract timout: ");
       Serial.print(end_time-millis());
       Serial.print("\tShell End Retracted pin: ");
       Serial.println(ShellEndRetracted);
     }
-    analogWrite(MShellSpeed, ShellMotorCSpeed);
   }
   analogWrite(MShellSpeed, 0);
 }
@@ -59,17 +59,17 @@ void ShellRetract(){
 //Shell extension function.
 void ShellExtend(){
   long unsigned time = millis();
-  long unsigned end_time = time + 3000;
-  digitalWrite(MShellDir, LOW);
+  long unsigned end_time = time + 100;
+  digitalWrite(MShellDir, HIGH);
 
-  while(digitalRead(ShellEndExtended) != 1 && millis()<end_time){
+  while(/*digitalRead(ShellEndExtended) != 1 && */millis()<end_time){
+    analogWrite(MShellSpeed, ShellMotorCSpeed);
     if(SystemDebug == 2){
       Serial.print("Shell extend timout: ");
       Serial.print(end_time-millis());
       Serial.print("\tShell End Extend pin: ");
       Serial.println(ShellEndExtended);
-    }
-    analogWrite(MShellSpeed, ShellMotorCSpeed);
+    } 
   }
   analogWrite(MShellSpeed, 0);
 }
@@ -81,7 +81,7 @@ void ShellExtend(){
 //Door raising function.
 void DoorRaise(){
   long unsigned time = millis();
-  long unsigned end_time = time + 5000;
+  long unsigned end_time = time + 50;
   digitalWrite(MDoorDir, LOW);
 
   while(digitalRead(DoorEndRaised) != 1 && millis()<end_time){
@@ -99,7 +99,7 @@ void DoorRaise(){
 //Door lowering function.
 void DoorLower(){
   long unsigned time = millis();
-  long unsigned end_time = time + 5000;
+  long unsigned end_time = time + 50;
   digitalWrite(MDoorDir, HIGH);
 
   while(digitalRead(DoorEndLowered) != 1 && millis()<end_time){
