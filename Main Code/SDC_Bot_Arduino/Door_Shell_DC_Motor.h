@@ -67,8 +67,8 @@ void ShellRetract(){
       Serial.println(ShellEndRetracted);
     }
   }
-  analogWrite(MShellSpeed, 0);
-  digitalWrite(Solenoid,LOW);
+  //analogWrite(MShellSpeed, 0);
+  //digitalWrite(Solenoid,LOW);
 }
 
 //Shell extension function.
@@ -97,8 +97,8 @@ void ShellExtend(){
       Serial.println(ShellEndExtended);
     }
   }
-  analogWrite(MShellSpeed, 0);
-  digitalWrite(Solenoid,LOW);
+  //analogWrite(MShellSpeed, 0);
+  //digitalWrite(Solenoid,LOW);
 }
 
 /* Door raising and lowering functions.
@@ -120,7 +120,7 @@ void DoorRaise(){
       Serial.println(DoorEndRaised);
     }
   }
-  analogWrite(MDoorSpeed, 0);
+  //analogWrite(MDoorSpeed, 0);
 }
 
 //Door lowering function.
@@ -130,7 +130,7 @@ void DoorLower(){
   digitalWrite(MDoorDir, HIGH);
 
   while(digitalRead(DoorEndLowered) != 1 && millis()<end_time){
-    analogWrite(MDoorSpeed, DoorMotorCSpeed);
+    analogWrite(MDoorSpeed, DoorMotorCSpeed+25);
     if(SystemDebug == 2){
       Serial.print("Door lowered timout: ");
       Serial.print(end_time-millis());
@@ -138,7 +138,7 @@ void DoorLower(){
       Serial.println(DoorEndLowered);
     }
   }
-  analogWrite(MDoorSpeed/2, 0);
+  //analogWrite(MDoorSpeed, 0);
 }
 
 /*Emergency Stop Functions
@@ -148,7 +148,9 @@ void DoorLower(){
 
 //Emergency Stop function for shell movement
 void ShellEStop(){
+  
   analogWrite(MShellSpeed, 0);
+  digitalWrite(Solenoid,LOW);
 }
 
 //Emergency stop function for door movement

@@ -247,6 +247,8 @@ void MovementController(){
       }
     }
     else{
+      DoorEStop();
+      ShellEStop();
       GateClose();
       MecStop();
 
