@@ -113,7 +113,7 @@ void MovementController(){
       DoorLower();
     }
     //Rotate Clockwise
-    else if(get_joy_LX()>10){
+    else if(get_joy_LX()>20){
       speed = map(get_joy_LX(), 10, 420, 0, 255);
       //Here we move right as a hack to make the robot rotate. There's some pin mixup somewhere, but this makes it works.
       //The original command here was MecCW(speed)
@@ -125,7 +125,7 @@ void MovementController(){
       }
     }
     //Rotate Counter-Clockwise
-    else if(get_joy_LX()<-10){
+    else if(get_joy_LX()<-20){
       speed = map(get_joy_LX(), -10, -420, 0, 255);
       //Here we move left as a hack to make the robot rotate. There's some pin mixup somewhere, but this makes it works.
       //The original command here was MecCCW(speed)
@@ -138,8 +138,11 @@ void MovementController(){
     }
     else if(vectorMode && abs(get_joy_RX())+abs(get_joy_RY()) >15){
       int x,y;
-      x = map(get_joy_RX(), -370, 420, -200, 200);
-      y = map(get_joy_RY(), -350, 320, -200, 200);
+      x = map(get_joy_RX(), -370, 420, -240, 240);
+      y = map(get_joy_RY(), -350, 320, -240, 240);
+      if(y>50){
+        GateOpen();
+      }
       InputToOutput(x, y);
     }
     //Movement Right
