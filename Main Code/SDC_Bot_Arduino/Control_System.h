@@ -118,7 +118,7 @@ void MovementController(){
       //Here we move right as a hack to make the robot rotate. There's some pin mixup somewhere, but this makes it works.
       //The original command here was MecCW(speed)
       MecCW(speed);
-      GateClose();
+//      GateClose();
       if(SystemDebug==2)
       {
         Serial.print("Moving Clockwise by "); Serial.println(speed);
@@ -130,7 +130,7 @@ void MovementController(){
       //Here we move left as a hack to make the robot rotate. There's some pin mixup somewhere, but this makes it works.
       //The original command here was MecCCW(speed)
       MecCCW(speed);
-      GateClose();
+//      GateClose();
       if(SystemDebug==2)
       {
         Serial.print("Moving Counter-Clockwise by "); Serial.println(speed);
