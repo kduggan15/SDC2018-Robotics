@@ -140,7 +140,13 @@ void MovementController(){
       int x,y;
       x = map(get_joy_RX(), -370, 420, -240, 240);
       y = map(get_joy_RY(), -350, 320, -240, 240);
-      if(y>0){
+      // Must comment out one out of these two if statements
+      // This if statement enables the automatic lowering of the flap when y > 0
+//      if(y>0){
+//        GateOpen();
+//      }
+     // This if statement enables the controlled opening of the flap
+      if(get_LB1_press()==1){
         GateOpen();
       }
       InputToOutput(x, y);
