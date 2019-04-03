@@ -45,7 +45,7 @@ void BodyMotionSetup(){
 //Shell Retraction function.
 void ShellRetract(){
 
-   digitalWrite(MShellDir, LOW);       // JORGE: BEFORE WAS HIGH
+ digitalWrite(MShellDir, LOW);       // JORGE: BEFORE WAS HIGH
 
  // time delay allow solenoid to unlock
  long unsigned time_solenoid = millis();
@@ -53,12 +53,6 @@ void ShellRetract(){
 
  // unlock solenoid
  digitalWrite(Solenoid,HIGH);
-
- while(digitalRead(ShellEndExtended) != 1 && millis()<end_time_solenoid){
-     digitalWrite(Solenoid,HIGH);
- }
-
-
   // retract shell
   long unsigned time = millis();
   long unsigned end_time = time + 100;
@@ -88,10 +82,6 @@ void ShellExtend(){
 
  // unlock solenoid
  digitalWrite(Solenoid,HIGH);
-
- while(digitalRead(ShellEndExtended) != 1 && millis()<end_time_solenoid){
-     digitalWrite(Solenoid,HIGH);
- }
 
   // extend shell
   long unsigned time = millis();
@@ -148,7 +138,7 @@ void DoorLower(){
       Serial.println(DoorEndLowered);
     }
   }
-  analogWrite(MDoorSpeed, 0);
+  analogWrite(MDoorSpeed/2, 0);
 }
 
 /*Emergency Stop Functions
