@@ -86,13 +86,13 @@ void MovementController(){
    else
    {
 */
-    if(get_LB1_press()==1)
-    {
-      Serial.println("AutoForward");
-      autoForward();
-
-    }
-    else if(get_RB1_press()==1)
+//    if(get_LB1_press()==1)
+//    {
+//      Serial.println("AutoForward");
+//      autoForward();
+//
+//    }
+    if(get_RB1_press()==1)
     {
       Serial.println("Open Shell");
       ShellExtend();
