@@ -1,6 +1,7 @@
 #ifndef DOOR_SHELL_DC_MOTOR_H
 #define DOOR_SHELL_DC_MOTOR_H
 
+
 /*
 Code for extending and retracting the shell of the bot, as well as for raising and lowering the back door.
 This code uses 2 dc motors connected to one motor driver and 4 endstops connected directly to the Arduino Mega using pullups to pull signals to 5V.
@@ -18,6 +19,8 @@ This code uses 2 dc motors connected to one motor driver and 4 endstops connecte
 #define DoorEndRaised 31         //Pin for endstop for the raised position of door.
 #define DoorEndLowered 33        //Pin for endstop for the lowered positon of door.
 
+#define Solenoid 31              //Pin for solenoid
+
 //Constant speed variables for the shell and door motors (0-255).
 const int ShellMotorCSpeed = 100;
 const int DoorMotorCSpeed = 100;
@@ -32,6 +35,7 @@ void BodyMotionSetup(){
   pinMode(MDoorDir, OUTPUT);
   pinMode(DoorEndRaised, INPUT);
   pinMode(DoorEndLowered, INPUT);
+  pinMode(Solenoid, OUTPUT);
 }
 
 /* Shell Extensions and Retraction functions.
@@ -40,9 +44,24 @@ void BodyMotionSetup(){
 
 //Shell Retraction function.
 void ShellRetract(){
+
+   digitalWrite(MShellDir, LOW);       // JORGE: BEFORE WAS HIGH
+
+ // time delay allow solenoid to unlock
+ long unsigned time_solenoid = millis();
+ long unsigned end_time_solenoid  = time_solenoid + 2000;
+
+ // unlock solenoid
+ digitalWrite(Solenoid,HIGH);
+
+ while(digitalRead(ShellEndExtended) != 1 && millis()<end_time_solenoid){
+     digitalWrite(Solenoid,HIGH);
+ }
+
+
+  // retract shell
   long unsigned time = millis();
-  long unsigned end_time = time + 3000;
-  digitalWrite(MShellDir, HIGH);
+  long unsigned end_time = time + 200;
 
   while(digitalRead(ShellEndRetracted) != 1 && millis()<end_time){
     if(SystemDebug == 2){
@@ -54,13 +73,28 @@ void ShellRetract(){
     analogWrite(MShellSpeed, ShellMotorCSpeed);
   }
   analogWrite(MShellSpeed, 0);
+  digitalWrite(Solenoid,LOW);
 }
 
 //Shell extension function.
 void ShellExtend(){
+
+  digitalWrite(MShellDir, HIGH);  // JORGE: BEFORE WAS HIGH
+
+ // time delay to allow solenoid to unlock
+ long unsigned time_solenoid = millis();
+ long unsigned end_time_solenoid  = time_solenoid + 2000;
+
+ // unlock solenoid
+ digitalWrite(Solenoid,HIGH);
+
+ while(digitalRead(ShellEndExtended) != 1 && millis()<end_time_solenoid){
+     digitalWrite(Solenoid,HIGH);
+ }
+
+  // extend shell
   long unsigned time = millis();
-  long unsigned end_time = time + 3000;
-  digitalWrite(MShellDir, LOW);
+  long unsigned end_time = time + 200;
 
   while(digitalRead(ShellEndExtended) != 1 && millis()<end_time){
     if(SystemDebug == 2){
@@ -72,6 +106,7 @@ void ShellExtend(){
     analogWrite(MShellSpeed, ShellMotorCSpeed);
   }
   analogWrite(MShellSpeed, 0);
+  digitalWrite(Solenoid,LOW);
 }
 
 /* Door raising and lowering functions.
@@ -81,7 +116,7 @@ void ShellExtend(){
 //Door raising function.
 void DoorRaise(){
   long unsigned time = millis();
-  long unsigned end_time = time + 5000;
+  long unsigned end_time = time + 100;
   digitalWrite(MDoorDir, LOW);
 
   while(digitalRead(DoorEndRaised) != 1 && millis()<end_time){
@@ -99,7 +134,7 @@ void DoorRaise(){
 //Door lowering function.
 void DoorLower(){
   long unsigned time = millis();
-  long unsigned end_time = time + 5000;
+  long unsigned end_time = time + 100;
   digitalWrite(MDoorDir, HIGH);
 
   while(digitalRead(DoorEndLowered) != 1 && millis()<end_time){
