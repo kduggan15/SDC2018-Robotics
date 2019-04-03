@@ -26,7 +26,7 @@ void StopAll(){
 
     LowVoltageFlag = 1; //sets the low voltage flag
     StopAll();
-    SoundAlarm(); //Sounds alarm to alert the user that the battery voltage is low
+//    SoundAlarm(); //Sounds alarm to alert the user that the battery voltage is low
 
     if(SystemDebug == 1){
       Serial.print("Warning: Battery Low Voltage: B1-");
