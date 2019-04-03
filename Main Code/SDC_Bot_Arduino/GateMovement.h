@@ -19,7 +19,7 @@
 #include <Servo.h>
 
 #define ServoPinLeft 12   //Pin used for the left servo signal
-#define ServoPinRight 40  //Pin used for the right servo signal
+#define ServoPinRight 44  //Pin used for the right servo signal
 
 Servo ServoLeft;          //Object initialization for the left servo
 Servo ServoRight;         //Object initialization for the right servo
@@ -28,20 +28,22 @@ Servo ServoRight;         //Object initialization for the right servo
 
 const int OpenPosition = 180;     //Value in degrees at which the gate will swing open
 const int ClosedPosition = 20;   //Value in degrees at which the gate will swing closed
+const int OpenPositionRight = 0;
+const int ClosedPositionRight = 160;
 int GateStatus = 0;             //Flag that stores position of the gate, 0 = No position assigned, 1 = Open, 2 = closed.
 
 //Setup for the servos, add this to the main setup.
 void ServoSetup(){
     //Initialization of servos based on the library setup, just gives the object, the pin it needs to use.
-    ServoLeft.attach(12); //initialization Left servo
-    ServoRight.attach(13); //Initialization Right Servo.
+    ServoLeft.attach(ServoPinLeft); //initialization Left servo
+    ServoRight.attach(ServoPinRight); //Initialization Right Servo.
 }
 
 //Opens the gate, using the values given by the constant position values of position.
 void GateOpen(){
 
   ServoLeft.write(OpenPosition);                        //Sends position information to left servo
-  ServoRight.write(OpenPosition);  //Sends posiition information to right servo (Check note 1)
+  ServoRight.write(OpenPositionRight);  //Sends posiition information to right servo (Check note 1)
   GateStatus = 1; //Gate opened
 
   //Prints the status of the gate and position value if debugging is enabled
@@ -59,7 +61,7 @@ void GateOpen(){
 void GateClose(){
 
   ServoLeft.write(ClosedPosition);                        //Sends position information to left servo
-  ServoRight.write(ClosedPosition);  //Sends posiition information to right servo
+  ServoRight.write(ClosedPositionRight);  //Sends posiition information to right servo
   GateStatus = 2; //Gate closed
 
   //Prints the status of the gate and position value if debugging is enabled
