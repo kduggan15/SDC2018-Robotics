@@ -13,7 +13,7 @@ void StopAll(){
   MecStop(); //Stops DC Motors for mecanum wheels
   ShellEStop(); //Stops the shell motors
   DoorEStop(); //Stops the door lifting motors
-  EmergencyStopEN(); //Disables the stepper motors
+//  EmergencyStopEN(); //Disables the stepper motors
 }
 
 //Checks battery level, does not allow the robot to run if the battery level is too low
@@ -39,7 +39,7 @@ void StopAll(){
    else if((BatteryVoltage1 > DischargeVoltage) && (BatteryVoltage2 > DischargeVoltage)){
 
     LowVoltageFlag = 0; //resets the low voltage flag
-    EmergencyStopDis(); //enables the stepper motors
+//    EmergencyStopDis(); //enables the stepper motors
 
      if(SystemDebug == 1){
       Serial.print("Battery OK: B1-");
@@ -140,7 +140,7 @@ void MovementController(){
       int x,y;
       x = map(get_joy_RX(), -370, 420, -240, 240);
       y = map(get_joy_RY(), -350, 320, -240, 240);
-      if(y>50){
+      if(y>0){
         GateOpen();
       }
       InputToOutput(x, y);
