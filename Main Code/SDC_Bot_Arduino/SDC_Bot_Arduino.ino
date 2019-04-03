@@ -6,7 +6,7 @@
 
 //Systemwide Debug for Serial Output 0 = OFF, 1 = STANDARD, 2 = Analog stick debug.
 //More can be added.
-int SystemDebug = 0;
+int SystemDebug = 2;
 
 #include "Door_Shell_DC_Motor.h"      //Motion for the DC motors used for the door and shell mechanism
 #include "Motion_DC_Motors.h"         //Motion for the DC motors used for the mecanum wheels to move the robot
