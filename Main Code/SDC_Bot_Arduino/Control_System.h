@@ -52,13 +52,13 @@ void StopAll(){
 
 void autoForward(){
   GateOpen();
-  for(int i=80; i<230; i++)//80-230-245
+  for(int i=100; i<220; i++)//80-230-245
   {
     MecForwards(i);
     delay(i>>3);
   }
   GateClose();
-  for (int i=230; i<240; i++)
+  for (int i=220; i<230; i++)
   {
     MecForwards(i);
     delay(i>>3);
@@ -86,12 +86,12 @@ void MovementController(){
    else
    {
 */
-//    if(get_LB1_press()==1)
-//    {
-//      Serial.println("AutoForward");
-//      autoForward();
-//
-//    }
+    if(get_LB2_press()==1)
+    {
+      Serial.println("AutoForward");
+      autoForward();
+
+    }
     if(get_RB1_press()==1)
     {
       Serial.println("Open Shell");
